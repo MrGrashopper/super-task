@@ -1,103 +1,112 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import { useProjects } from "@/hooks/useProjects";
+import { getStatusClass } from "@/lib/constants";
+import type { Project, Task, Subtask } from "@/lib/types";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { ProjectForm } from "@/components/ProjectForm";
+import { UIButton } from "@/components/ui/Button";
+
+const Page = () => {
+  const { data: projects = [], isLoading, isError } = useProjects();
+  const [showForm, setShowForm] = useState(false);
+  const handleAddClick = () => setShowForm(true);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      {showForm && (
+        <div className="fixed inset-0 bg-black/20 bg-opacity-50 flex items-center justify-center p-4">
+          <ProjectForm onClose={() => setShowForm(false)} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      )}
+
+      {isLoading ? (
+        <div className="p-4">Lade Projekte…</div>
+      ) : isError ? (
+        <div className="p-4 text-red-600">Fehler beim Laden der Projekte.</div>
+      ) : projects.length === 0 ? (
+        <EmptyState
+          title="Noch keine Projekte"
+          description="Lege dein erstes Projekt an, um loszulegen und deine Aufgaben zu organisieren."
+          buttonLabel="Projekt hinzufügen"
+          onButtonClick={handleAddClick}
+        />
+      ) : (
+        <main className="p-6 space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold">Projektübersicht</h1>
+            <UIButton onClick={handleAddClick}>Projekt hinzufügen</UIButton>
+          </div>
+          {projects.map((project: Project) => (
+            <div key={project.id} className="p-4 border rounded-lg shadow-sm">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-semibold">{project.title}</h2>
+                <span className="text-sm">
+                  {new Date(project.dueDate).toLocaleDateString("de-DE")}
+                </span>
+              </div>
+              <p className="mt-2 text-gray-600">{project.description}</p>
+              <div className="mt-3">
+                <span
+                  className={`inline-block px-2 py-1 rounded ${getStatusClass(
+                    project.status
+                  )}`}
+                >
+                  {project.status}
+                </span>
+              </div>
+              <div className="mt-4 space-y-4">
+                <h3 className="font-medium">Tasks</h3>
+                {project.tasks.length === 0 ? (
+                  <div className="pl-4 text-gray-500">Keine Tasks.</div>
+                ) : (
+                  project.tasks.map((task: Task) => (
+                    <div key={task.id} className="pl-4 border-l">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">{task.title}</span>
+                        <span className="text-xs">
+                          {new Date(task.dueDate).toLocaleDateString("de-DE")}
+                        </span>
+                      </div>
+                      <div className="mt-1">
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded text-xs ${getStatusClass(
+                            task.status
+                          )}`}
+                        >
+                          {task.status}
+                        </span>
+                      </div>
+                      <div className="mt-2 space-y-2 pl-4">
+                        {task.subtasks.length === 0 ? (
+                          <div className="text-gray-500">Keine Subtasks.</div>
+                        ) : (
+                          task.subtasks.map((sub: Subtask) => (
+                            <div
+                              key={sub.id}
+                              className="flex justify-between items-center text-sm"
+                            >
+                              <span>{sub.title}</span>
+                              <span>
+                                {new Date(sub.dueDate).toLocaleDateString(
+                                  "de-DE"
+                                )}
+                              </span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          ))}
+        </main>
+      )}
+    </>
   );
-}
+};
+
+export default Page;
