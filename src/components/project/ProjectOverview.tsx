@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Project } from "@/lib/types";
+import type { Project } from "@lib/types";
 import { ProjectCard } from "./ProjectCard";
 
 type Props = { projects: Project[] };

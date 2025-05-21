@@ -1,9 +1,9 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useProjects } from "@/hooks/useProjects";
-import { FormData } from "@/lib/types";
+import { useProjects } from "hooks/useProjects";
+import { FormData } from "@lib/types";
 import { UIButton } from "../ui/Button";
-import { StatusLabels } from "@/lib/constants";
+import { StatusLabels } from "@lib/constants";
 
 type ProjectFormProps = {
   onClose: () => void;

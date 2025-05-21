@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Trash2 } from "lucide-react";
-import { useProjects } from "@/hooks/useProjects";
-import { getStatusClass, StatusLabels } from "@/lib/constants";
+import { useProjects } from "hooks/useProjects";
+import { getStatusClass, StatusLabels } from "@lib/constants";
+import type { Project } from "@lib/types";
 import { TaskList } from "./TaskList";
-import type { Project } from "@/lib/types";
 
 type Props = { project: Project };
 

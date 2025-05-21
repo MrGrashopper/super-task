@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import type { Project } from "@/lib/types";
+
 import { UIButton } from "../ui/Button";
 
 import { PlusCircle } from "lucide-react";
-import { ProjectOverview } from "./ProjectOverview";
+import { ProjectOverview } from "@project";
+import { Project } from "@lib/types";
 
 type Props = {
   projects: Project[];

@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import type { Task } from "@/lib/types";
-import { getStatusClass } from "@/lib/constants";
+import type { Task } from "@lib/types";
+import { getStatusClass } from "@lib/constants";
 import { SubtaskList } from "./SubtaskList";
 
 type Props = { tasks: Task[] };

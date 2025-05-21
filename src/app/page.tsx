@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { useProjects } from "@/hooks/useProjects";
-import { LoadingState } from "@/components/ui/LoadingState";
-import { ErrorState } from "@/components/ui/ErrorState";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Dashboard } from "@/components/project/Dashboard";
-import { Modal } from "@/components/ui/Modal";
-import { ProjectForm } from "@/components/project/ProjectForm";
+import { LoadingState } from "@components/ui/LoadingState";
+import { ErrorState } from "@components/ui/ErrorState";
+import { EmptyState } from "@components/ui/EmptyState";
+import { Dashboard } from "@components/project/Dashboard";
+import { Modal } from "@components/ui/Modal";
+import { ProjectForm } from "@components/project/ProjectForm";
+import { useProjects } from "hooks/useProjects";
 
 const Page = () => {
   const { data: projects = [], isLoading, isError } = useProjects();
