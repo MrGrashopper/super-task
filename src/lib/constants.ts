@@ -1,3 +1,5 @@
+import { Status } from "./types";
+
 export const getStatusClass = (status: string): string => {
   switch (status) {
     case "Open":
@@ -9,4 +11,10 @@ export const getStatusClass = (status: string): string => {
     default:
       return "bg-gray-100 text-gray-800";
   }
+};
+
+export const StatusLabels: Record<Status, string> = {
+  Open: "Offen",
+  InProgress: "In Bearbeitung",
+  Done: "Erledigt",
 };

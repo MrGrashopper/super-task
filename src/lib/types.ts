@@ -27,3 +27,10 @@ export type Project = {
   status: Status;
   tasks: Task[];
 };
+
+export type FormData = {
+  title: string;
+  description?: string;
+  dueDate: string;
+  status: Status;
+};

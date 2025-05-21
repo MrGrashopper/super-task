@@ -16,7 +16,7 @@ export const EmptyState = ({
   buttonLabel,
   onButtonClick,
 }: EmptyStateProps) => (
-  <main className="flex flex-col items-center justify-center h-screen p-6 bg-gray-50">
+  <main className="flex flex-col items-center justify-center h-screen p-6">
     <h1 className="font-main text-6xl font-bold mb-4">{title}</h1>
     <p className="text-gray-600 mb-6 text-center max-w-sm">{description}</p>
     <UIButton onClick={onButtonClick}>{buttonLabel}</UIButton>

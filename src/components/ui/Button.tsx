@@ -5,7 +5,7 @@ import React from "react";
 type UIButtonProps = {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "icon";
   children: React.ReactNode;
 };
 
@@ -14,16 +14,23 @@ export const UIButton = ({
   onClick,
   variant = "primary",
   children,
-}: UIButtonProps) => (
-  <button
-    type={type}
-    onClick={onClick}
-    className={`cursor-pointer px-6 py-2 rounded-full transition ${
-      variant === "primary"
-        ? "border border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white"
-        : "text-gray-700 hover:text-red-700"
-    }`}
-  >
-    {children}
-  </button>
-);
+}: UIButtonProps) => {
+  const base = "cursor-pointer transition";
+  const size = variant === "icon" ? "p-2" : "px-2 md:px-6 py-2";
+  const style =
+    variant === "primary"
+      ? "border border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white rounded-full"
+      : variant === "secondary"
+      ? "text-gray-700 hover:text-red-700 rounded-full"
+      : "text-gray-700 hover:bg-gray-200 rounded-full";
+
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      className={`${base} ${size} ${style}`}
+    >
+      {children}
+    </button>
+  );
+};
