@@ -4,15 +4,14 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { Status } from "@lib/types";
 
-type Props = {
-  id: string;
-  status: Status;
-  children: ReactNode;
-};
+type Props = { id: string; status: Status; children: ReactNode };
 
 export const SortableTask = ({ id, status, children }: Props) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id, data: { status } });
+  const { setNodeRef, attributes, listeners, transform, transition } =
+    useSortable({
+      id,
+      data: { status },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),

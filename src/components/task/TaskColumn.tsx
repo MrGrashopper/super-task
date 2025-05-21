@@ -26,7 +26,7 @@ export const TaskColumn = ({
 }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: columnStatus,
     data: { status: columnStatus },
   });
@@ -45,12 +45,12 @@ export const TaskColumn = ({
 
       <div
         ref={setNodeRef}
-        className="flex flex-col gap-2 self-start w-72 flex-shrink-0"
+        className="`flex flex-col self-start w-72 flex-shrink-0"
       >
         <div
           role="button"
           onClick={() => setOpen(true)}
-          className="bg-white rounded-lg shadow-sm p-2 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
+          className="bg-white rounded-lg shadow-sm mb-4 p-2 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
         >
           <h4 className="font-medium">{label}</h4>
           <Plus size={16} className="text-gray-500" />
@@ -59,19 +59,27 @@ export const TaskColumn = ({
           items={tasks.map((t) => t.id)}
           strategy={verticalListSortingStrategy}
         >
-          {tasks.length === 0 && (
-            <div
-              className="rounded-lg border-2 border-dashed border-gray-300
-                 h-24 p-4 flex items-center justify-center text-gray-400"
-            >
-              Noch keine Tasks - Drag & Drop hierher!
-            </div>
-          )}
-          {tasks.map((t) => (
-            <SortableTask key={t.id} id={t.id} status={columnStatus}>
-              <TaskCard task={t} projectId={projectId} />
-            </SortableTask>
-          ))}
+          <div className="flex flex-col gap-2">
+            {tasks.length === 0 && (
+              <div
+                className={`rounded-lg border-2 border-dashed min-h-[96px] flex items-center justify-center
+              ${
+                isOver
+                  ? "border-blue-500 text-blue-600 bg-blue-50"
+                  : "border-gray-300 text-gray-400"
+              }
+            `}
+              >
+                Noch keine Tasks – hierher ziehen
+              </div>
+            )}
+
+            {tasks.map((t) => (
+              <SortableTask key={t.id} id={t.id} status={columnStatus}>
+                <TaskCard task={t} projectId={projectId} />
+              </SortableTask>
+            ))}
+          </div>
         </SortableContext>
       </div>
     </>
