@@ -1,29 +1,37 @@
 "use client";
-import { Trash2 } from "lucide-react";
-import { useProjects } from "hooks/useProjects";
+import { ItemCard } from "@ui/ItemCard";
+import { useTasks } from "hooks/useTasks";
+import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
-export const TaskCard = ({ task }: { task: Task }) => {
-  const { remove } = useProjects();
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id, data: { status: task.status } });
+export const TaskCard = ({
+  task,
+  projectId,
+}: {
+  task: Task;
+  projectId: string;
+}) => {
+  const { remove } = useTasks(projectId);
+  const onDelete = () => {
+    if (window.confirm(`Task "${task.title}" wirklich löschen?`))
+      remove.mutate(task.id);
+  };
+
   return (
-    <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
-      className="bg-white rounded p-2 shadow mb-2 cursor-grab"
-      {...attributes}
-      {...listeners}
-    >
-      <div className="flex justify-between">
-        <span className="font-semibold">{task.title}</span>
-        <button onClick={() => remove.mutate(task.id)}>
-          <Trash2 size={14} />
-        </button>
-      </div>
-      <p className="text-xs text-gray-500">{task.description}</p>
-    </div>
+    <ItemCard
+      title={task.title}
+      description={task.description}
+      dueDate={task.dueDate}
+      statusBadge={
+        <span
+          className={`inline-block px-2 py-0.5 text-xs rounded ${getStatusClass(
+            task.status
+          )}`}
+        >
+          {StatusLabels[task.status]}
+        </span>
+      }
+      onDelete={onDelete}
+    />
   );
 };
