@@ -4,8 +4,8 @@ import {
   DndContext,
   DragEndEvent,
   DragStartEvent,
-  pointerWithin,
   DragOverlay,
+  closestCorners,
 } from "@dnd-kit/core";
 import { StatusLabels } from "@lib/constants";
 import type { Status } from "@lib/types";
@@ -41,7 +41,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
 
   return (
     <DndContext
-      collisionDetection={pointerWithin}
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >

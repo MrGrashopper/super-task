@@ -1,7 +1,8 @@
 "use client";
+
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import { useDroppable } from "@dnd-kit/core";
+import { useDroppable, useDndMonitor } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -31,6 +32,43 @@ export const TaskColumn = ({
     data: { status: columnStatus },
   });
 
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [sourceStatus, setSourceStatus] = useState<Status | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
+
+  useDndMonitor({
+    onDragStart: ({ active }) => {
+      setDraggingId(active.id as string);
+      setSourceStatus(active.data.current?.status as Status);
+    },
+    onDragOver: ({ over }) => setOverId(over?.id as string | null),
+    onDragEnd: () => {
+      setDraggingId(null);
+      setSourceStatus(null);
+      setOverId(null);
+    },
+    onDragCancel: () => {
+      setDraggingId(null);
+      setSourceStatus(null);
+      setOverId(null);
+    },
+  });
+
+  const list: (Task | "placeholder")[] = [];
+
+  if (tasks.length > 0 && draggingId && sourceStatus !== columnStatus) {
+    if (isOver) {
+      const idx = tasks.findIndex((t) => t.id === overId);
+      if (idx === -1) list.push(...tasks, "placeholder");
+      else
+        list.push(...tasks.slice(0, idx), "placeholder", ...tasks.slice(idx));
+    } else {
+      list.push(...tasks, "placeholder");
+    }
+  } else {
+    list.push(...tasks);
+  }
+
   return (
     <>
       {open && (
@@ -45,7 +83,7 @@ export const TaskColumn = ({
 
       <div
         ref={setNodeRef}
-        className="`flex flex-col self-start w-72 flex-shrink-0"
+        className="flex flex-col self-start w-72 flex-shrink-0"
       >
         <div
           role="button"
@@ -55,6 +93,7 @@ export const TaskColumn = ({
           <h4 className="font-medium">{label}</h4>
           <Plus size={16} className="text-gray-500" />
         </div>
+
         <SortableContext
           items={tasks.map((t) => t.id)}
           strategy={verticalListSortingStrategy}
@@ -62,25 +101,34 @@ export const TaskColumn = ({
           <div className="flex flex-col gap-2">
             {tasks.length === 0 && (
               <div
-                className={`rounded-lg border-2 border-dashed min-h-[96px] flex items-center justify-center
-              ${
-                isOver
-                  ? "border-blue-500 text-blue-600 bg-blue-50"
-                  : "border-gray-300 text-gray-400"
-              }
-            `}
+                className={`rounded-lg border-2 border-dashed min-h-[96px] flex items-center justify-center ${
+                  isOver || draggingId
+                    ? "border-blue-300 text-blue-400 bg-blue-50"
+                    : "border-gray-300 text-gray-400"
+                }`}
               >
-                Noch keine Tasks – hierher ziehen
+                Aufgabe anlegen oder hier ablegen
               </div>
             )}
 
-            {tasks.map((t) => (
-              <SortableTask key={t.id} id={t.id} status={columnStatus}>
-                <TaskCard task={t} projectId={projectId} />
-              </SortableTask>
-            ))}
+            {list.map((item, i) =>
+              item === "placeholder" ? (
+                <div
+                  key={`ph-${i}`}
+                  className="h-6 flex items-center justify-center rounded border-2 border-dashed border-blue-300 bg-blue-50"
+                >
+                  <Plus size={14} className="text-blue-500" />
+                </div>
+              ) : (
+                <SortableTask key={item.id} id={item.id} status={columnStatus}>
+                  <TaskCard task={item} projectId={projectId} />
+                </SortableTask>
+              )
+            )}
           </div>
         </SortableContext>
+
+        <div className="h-24 flex-shrink-0" />
       </div>
     </>
   );
