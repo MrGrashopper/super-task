@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
-import type { ProjectWithTasks } from "@/lib/types.server";
+import { prisma } from "@lib/prisma";
+import { Task } from "@lib/types";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
-  const data: ProjectWithTasks[] = await prisma.project.findMany({
+  const data: Task[] = await prisma.project.findMany({
     include: { tasks: { include: { subtasks: true } } },
   });
   return NextResponse.json(data);
