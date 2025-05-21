@@ -1,40 +1,52 @@
 "use client";
-
-import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import React from "react";
+import { DndContext, DragEndEvent, pointerWithin } from "@dnd-kit/core";
 import { useTasks } from "hooks/useTasks";
 import { TaskColumn } from "./TaskColumn";
 import { StatusLabels } from "@lib/constants";
-import { Status } from "@lib/types";
+import type { Status } from "@lib/types";
 
 export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const { data: tasks = [], update } = useTasks(projectId);
-  const states = Object.keys(StatusLabels) as Status[];
+  const statuses = Object.keys(StatusLabels) as Status[];
 
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over) return;
-    if (active.data.current?.status !== over.id)
+    const newStatus = over.data.current?.status as Status | undefined;
+    if (!newStatus) return;
+
+    if (active.data.current?.status !== newStatus) {
+      update.mutate(
+        { id: active.id as string, data: { status: newStatus } },
+        {
+          onSuccess: () =>
+            console.log("✅ DB-Update ok, Query wird invaldiert"),
+          onError: (e) => console.error("❌ Patch fehlgeschlagen", e),
+        }
+      );
+    }
+
+    if (active.data.current?.status !== newStatus) {
       update.mutate({
         id: active.id as string,
-        data: { status: over.id as Status },
+        data: { status: newStatus },
       });
+    }
   };
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-      <SortableContext items={states} strategy={rectSortingStrategy}>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {states.map((status) => (
-            <TaskColumn
-              key={status}
-              columnStatus={status}
-              projectId={projectId}
-              label={StatusLabels[status]}
-              tasks={tasks.filter((t) => t.status === status)}
-            />
-          ))}
-        </div>
-      </SortableContext>
+    <DndContext collisionDetection={pointerWithin} onDragEnd={onDragEnd}>
+      <div className="flex gap-4 overflow-x-auto items-start py-2">
+        {statuses.map((status) => (
+          <TaskColumn
+            key={status}
+            projectId={projectId}
+            columnStatus={status}
+            label={StatusLabels[status]}
+            tasks={tasks.filter((t) => t.status === status)}
+          />
+        ))}
+      </div>
     </DndContext>
   );
 };
