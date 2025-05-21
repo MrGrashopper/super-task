@@ -7,11 +7,9 @@ import { ProjectCard } from "./ProjectCard";
 type Props = { projects: Project[] };
 
 export const ProjectOverview = ({ projects }: Props) => (
-  <div className="flex flex-wrap items-start -mx-3">
+  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">
     {projects.map((project) => (
-      <div key={project.id} className="px-3 w-full sm:w-1/2 lg:w-1/3">
-        <ProjectCard project={project} />
-      </div>
+      <ProjectCard key={project.id} project={project} />
     ))}
   </div>
 );

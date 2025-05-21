@@ -2,7 +2,7 @@
 
 import React from "react";
 import type { Task } from "@lib/types";
-import { getStatusClass } from "@lib/constants";
+import { getStatusClass, StatusLabels } from "@lib/constants";
 import { SubtaskList } from "./SubtaskList";
 
 type Props = { tasks: Task[] };
@@ -27,7 +27,7 @@ export const TaskList = ({ tasks }: Props) => {
                 task.status
               )}`}
             >
-              {task.status}
+              {StatusLabels[task.status]}
             </span>
           </div>
           <div className="mt-2">

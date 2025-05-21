@@ -42,6 +42,7 @@ export const ItemCard = ({
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
         </span>
         <button
+          onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.stopPropagation();
             onDelete();

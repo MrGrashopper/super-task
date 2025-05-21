@@ -13,26 +13,28 @@ export const ProjectCard = ({ project }: { project: Project }) => {
   };
 
   return (
-    <ItemCard
-      title={project.title}
-      description={project.description}
-      dueDate={project.dueDate}
-      statusBadge={
-        <span
-          className={`inline-block px-2 py-1 rounded ${getStatusClass(
-            project.status
-          )}`}
-        >
-          {StatusLabels[project.status]}
-        </span>
-      }
-      onDelete={onDelete}
-      href={`/projects/${project.id}`}
-    >
-      <div className="mt-4">
-        <h3 className="font-medium text-gray-600">Aufgaben</h3>
-        <TaskList tasks={project.tasks} />
-      </div>
-    </ItemCard>
+    <div className="break-inside-avoid mb-6">
+      <ItemCard
+        title={project.title}
+        description={project.description}
+        dueDate={project.dueDate}
+        statusBadge={
+          <span
+            className={`inline-block px-2 py-1 rounded ${getStatusClass(
+              project.status
+            )}`}
+          >
+            {StatusLabels[project.status]}
+          </span>
+        }
+        onDelete={onDelete}
+        href={`/projects/${project.id}`}
+      >
+        <div className="mt-4">
+          <h3 className="font-medium text-gray-600">Aufgaben</h3>
+          <TaskList tasks={project.tasks} />
+        </div>
+      </ItemCard>
+    </div>
   );
 };
