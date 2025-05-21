@@ -3,11 +3,12 @@ import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useTasks } from "hooks/useTasks";
 import { TaskColumn } from "./TaskColumn";
+import { StatusLabels } from "@lib/constants";
 import { Status } from "@lib/types";
 
 export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const { data: tasks = [], update } = useTasks(projectId);
-
+  const status = Object.keys(StatusLabels) as Status[];
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over) return;
     if (active.data.current?.status !== over.id)
@@ -16,23 +17,19 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
         data: { status: over.id as Status },
       });
   };
-
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-      <div className="flex gap-4 overflow-x-auto lg:overflow-visible">
-        <SortableContext
-          items={["Open", "InProgress", "Done"]}
-          strategy={rectSortingStrategy}
-        >
-          {["Open", "InProgress", "Done"].map((s) => (
+      <SortableContext items={status} strategy={rectSortingStrategy}>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {status.map((status) => (
             <TaskColumn
-              key={s}
-              id={s}
-              tasks={tasks.filter((t) => t.status === s)}
+              key={status}
+              label={StatusLabels[status]}
+              tasks={tasks.filter((t) => t.status === status)}
             />
           ))}
-        </SortableContext>
-      </div>
+        </div>
+      </SortableContext>
     </DndContext>
   );
 };

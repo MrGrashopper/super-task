@@ -1,11 +1,12 @@
+import { ProjectDto } from "@lib/dto";
 import { prisma } from "@lib/prisma";
-import { Task } from "@lib/types";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
-  const data: Task[] = await prisma.project.findMany({
+  const raw = await prisma.project.findMany({
     include: { tasks: { include: { subtasks: true } } },
   });
+  const data = ProjectDto.array().parse(raw);
   return NextResponse.json(data);
 };
 
