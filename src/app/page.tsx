@@ -28,7 +28,7 @@ const Page = () => {
         <EmptyState
           title="Jetzt loslegen"
           description="Lege dein erstes Projekt an, um loszulegen und deine Aufgaben zu organisieren."
-          buttonLabel="Projekt hinzufügen"
+          buttonLabel="Neues Projekt anlegen"
           onButtonClick={openForm}
         />
       ) : (

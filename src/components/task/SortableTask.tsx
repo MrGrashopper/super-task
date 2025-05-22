@@ -1,22 +1,33 @@
 "use client";
-import { ReactNode } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import type { ReactNode } from "react";
 import type { Status } from "@lib/types";
 
-type Props = { id: string; status: Status; children: ReactNode };
+type Props = {
+  id: string;
+  status: Status;
+  children: ReactNode;
+};
 
 export const SortableTask = ({ id, status, children }: Props) => {
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({
-      id,
-      data: { status },
-    });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
     transition,
-    display: "block",
+    isDragging,
+  } = useSortable({
+    id,
+    data: { status },
+  });
+
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition: isDragging ? "none" : transition,
+    opacity: isDragging ? 0 : 1,
+    pointerEvents: isDragging ? "none" : "auto",
   };
 
   return (

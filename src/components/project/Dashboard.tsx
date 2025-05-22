@@ -17,7 +17,7 @@ export const Dashboard = ({ projects, onAddClick }: Props) => (
       <h1 className="font-main text-2xl">Projektübersicht</h1>
       <div className="flex items-center space-x-2">
         <div className="hidden sm:block">
-          <UIButton onClick={onAddClick}>Projekt hinzufügen</UIButton>
+          <UIButton onClick={onAddClick}>Neues Projekt</UIButton>
         </div>
         <div className="sm:hidden">
           <UIButton onClick={onAddClick} variant="icon">

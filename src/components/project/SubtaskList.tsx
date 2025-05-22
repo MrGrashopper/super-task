@@ -8,7 +8,7 @@ type Props = { subtasks: Subtask[] };
 
 export const SubtaskList = ({ subtasks }: Props) => {
   if (subtasks.length === 0) {
-    return <div className="text-gray-500">Keine Subtasks.</div>;
+    return <div className="text-gray-500">Keine Unteraufgaben.</div>;
   }
 
   return (

@@ -16,10 +16,8 @@ const ProjectPage = () => {
 
   return (
     <main className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold text-gray-600">
-          {project.title}
-        </h2>
+      <div className="flex justify-between container mx-auto items-center">
+        <h2 className="font-main text-2xl text-gray-600">{project.title}</h2>
         <span
           className={`inline-block px-2 py-1 rounded ${getStatusClass(
             project.status
