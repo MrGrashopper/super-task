@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Subtask } from "@/lib/types";
+import type { Subtask } from "@lib/types";
 
 type Props = { subtasks: Subtask[] };
 
