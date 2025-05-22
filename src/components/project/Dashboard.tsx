@@ -21,7 +21,7 @@ export const Dashboard = ({ projects, onAddClick }: Props) => (
         </div>
         <div className="sm:hidden">
           <UIButton onClick={onAddClick} variant="icon">
-            <PlusCircle size={24} className="text-gray-700" />
+            <PlusCircle size={32} className="text-gray-600" strokeWidth={1} />
           </UIButton>
         </div>
       </div>

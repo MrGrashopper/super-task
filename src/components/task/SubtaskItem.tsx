@@ -54,10 +54,16 @@ const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
       </div>
       <div className="flex space-x-2">
         <button onClick={() => setEditing(true)} aria-label="Bearbeiten">
-          <Edit2 size={16} />
+          <Edit2
+            size={16}
+            className="text-gray-400 hover:text-gray-600 transition"
+          />
         </button>
         <button onClick={handleDelete} aria-label="Löschen">
-          <Trash2 size={16} />
+          <Trash2
+            size={16}
+            className="text-gray-400 hover:text-red-600 transition"
+          />
         </button>
       </div>
     </div>
