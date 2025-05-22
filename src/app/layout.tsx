@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import "./globals.css";
 import { Playfair_Display, Inter } from "next/font/google";
 import { Providers } from "@components/Providers";
+import { NavBar } from "@components/Navbar";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ const inter = Inter({
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang="de" className={`${playfair.variable} ${inter.variable}`}>
     <body className="font-body text-gray-800 min-h-screen">
+      <NavBar />
       <Providers>{children}</Providers>
     </body>
   </html>

@@ -59,7 +59,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
 
       <DragOverlay dropAnimation={null}>
         {activeTask && (
-          <div className="w-72">
+          <div className="min-w-[16rem] w-full">
             <TaskCard projectId={projectId} task={activeTask} />
           </div>
         )}

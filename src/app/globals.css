@@ -14,6 +14,6 @@
   }
 }
 
-
-
-
+@theme inline {
+  --font-main: var(--font-heading)
+}
