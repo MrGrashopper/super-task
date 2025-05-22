@@ -35,8 +35,8 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
         </button>
       </header>
 
-      <div className="p-4 overflow-y-auto flex-1 space-y-6">
-        <section className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+      <div className="p-4 overflow-y-auto flex-1 mt-6">
+        <section className="bg-white border border-gray-300 p-4  rounded-lg shadow-sm">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Aufgabe bearbeiten
           </h3>
@@ -46,7 +46,7 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
           />
         </section>
 
-        <section className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+        <section className="bg-white border border-gray-200 p-8 mx-4 rounded-b-lg shadow-sm">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Unteraufgaben
           </h3>

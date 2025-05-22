@@ -53,7 +53,9 @@ export const SubtaskForm = ({ initial, onSubmit, onCancel }: Props) => {
         <UIButton type="button" variant="secondary" onClick={onCancel}>
           Abbrechen
         </UIButton>
-        <UIButton type="submit">Speichern </UIButton>
+        <UIButton type="submit" variant="ghost">
+          Hinzufügen{" "}
+        </UIButton>
       </div>
     </form>
   );
