@@ -45,7 +45,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto items-start py-2">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {statuses.map((status) => (
           <TaskColumn
             key={status}

@@ -81,10 +81,7 @@ export const TaskColumn = ({
         </div>
       )}
 
-      <div
-        ref={setNodeRef}
-        className="flex flex-col self-start w-72 flex-shrink-0"
-      >
+      <div ref={setNodeRef} className="flex flex-col min-w-[16rem] w-full">
         <div
           role="button"
           onClick={() => setOpen(true)}
@@ -127,8 +124,6 @@ export const TaskColumn = ({
             )}
           </div>
         </SortableContext>
-
-        <div className="h-24 flex-shrink-0" />
       </div>
     </>
   );
