@@ -1,20 +1,23 @@
 "use client";
+
+import React from "react";
 import { ItemCard } from "@ui/ItemCard";
 import { useTasks } from "hooks/useTasks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
+import { SubtaskList } from "@components/project";
 
-export const TaskCard = ({
-  task,
-  projectId,
-}: {
+type Props = {
   task: Task;
   projectId: string;
-}) => {
+};
+
+export const TaskCard = ({ task, projectId }: Props) => {
   const { remove } = useTasks(projectId);
   const onDelete = () => {
-    if (window.confirm(`Task "${task.title}" wirklich löschen?`))
+    if (window.confirm(`Task "${task.title}" wirklich löschen?`)) {
       remove.mutate(task.id);
+    }
   };
 
   return (
@@ -32,6 +35,13 @@ export const TaskCard = ({
         </span>
       }
       onDelete={onDelete}
-    />
+    >
+      {task.subtasks.length > 0 && (
+        <>
+          <h3 className="font-medium text-gray-600">Unteraufgaben</h3>
+          <SubtaskList subtasks={task.subtasks} />
+        </>
+      )}
+    </ItemCard>
   );
 };

@@ -1,30 +1,49 @@
-// app/api/tasks/[taskId]/subtasks/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
+import type { Status } from "@prisma/client";
 
 export async function GET(
-  req: Request,
-  context: { params: Promise<{ taskId: string }> }
+  request: Request,
+  { params }: { params: { taskId: string } }
 ) {
-  const { taskId } = await context.params;
-  const subtasks = await prisma.subtask.findMany({
+  const { taskId } = await params;
+  const subs = await prisma.subtask.findMany({
     where: { taskId },
     orderBy: { createdAt: "asc" },
   });
-  return NextResponse.json(subtasks);
+  const data = subs.map((s) => ({
+    ...s,
+    dueDate: s.dueDate.toISOString(),
+    createdAt: s.createdAt.toISOString(),
+    updatedAt: s.updatedAt.toISOString(),
+  }));
+  return NextResponse.json(data);
 }
 
 export async function POST(
-  req: Request,
-  context: { params: Promise<{ taskId: string }> }
+  request: Request,
+  { params }: { params: { taskId: string } }
 ) {
-  const { taskId } = await context.params;
-  const body = await req.json();
+  const { taskId } = await params;
+  const body = (await request.json()) as {
+    title: string;
+    description?: string;
+    dueDate: string;
+    status: Status;
+  };
   const created = await prisma.subtask.create({
     data: {
-      ...body,
+      title: body.title,
+      description: body.description,
+      status: body.status,
+      dueDate: new Date(body.dueDate),
       taskId,
     },
   });
-  return NextResponse.json(created);
+  return NextResponse.json({
+    ...created,
+    dueDate: created.dueDate.toISOString(),
+    createdAt: created.createdAt.toISOString(),
+    updatedAt: created.updatedAt.toISOString(),
+  });
 }

@@ -94,8 +94,10 @@ export const TaskColumn = ({
               item === "placeholder" ? (
                 <div
                   key={`ph-${i}`}
-                  className="h-6 flex items-center justify-center rounded border-2 border-dashed border-blue-300 bg-blue-50"
-                />
+                  className="h-12 flex items-center justify-center rounded border-2 border-dashed border-blue-300 bg-blue-50"
+                >
+                  <Plus size={20} strokeWidth={2} className="text-blue-400" />
+                </div>
               ) : (
                 <SortableTask key={item.id} id={item.id} status={columnStatus}>
                   <div

@@ -1,9 +1,12 @@
 "use client";
+
 import React from "react";
 import { useTaskDetail } from "hooks/useTaskDetail";
-import { TaskDetailForm } from "./TaskDetailForm";
+import { useTasks } from "hooks/useTasks";
 import { useSubtasks } from "hooks/useSubtasks";
+import { TaskDetailForm } from "./TaskDetailForm";
 import { SubtaskList } from "./SubtaskList";
+import { UIButton } from "@components/ui";
 
 type Props = {
   taskId: string;
@@ -12,7 +15,15 @@ type Props = {
 
 export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
   const { data: task, isLoading } = useTaskDetail(taskId);
-  const { data: subtasks = [], add, update, remove } = useSubtasks(taskId);
+  const { update: updateTask } = useTasks(task?.projectId ?? "");
+  const {
+    data: subtasks = [],
+    add: addSubtask,
+    update: updateSubtask,
+    remove: removeSubtask,
+  } = useSubtasks(taskId);
+
+  const formId = `task-detail-form-${taskId}`;
 
   if (isLoading) return <div className="p-4">Lade…</div>;
   if (!task) return <div className="p-4">Aufgabe nicht gefunden</div>;
@@ -35,27 +46,43 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
         </button>
       </header>
 
-      <div className="p-4 overflow-y-auto flex-1 mt-6">
-        <section className="bg-white border border-gray-300 p-4  rounded-lg shadow-sm">
+      <div className="p-4 overflow-y-auto flex-1 space-mt-6">
+        <section className="bg-white border border-gray-300 p-4 rounded-lg shadow-sm">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Aufgabe bearbeiten
           </h3>
           <TaskDetailForm
+            formId={formId}
             initial={task}
-            onSubmit={(vals) => update.mutate({ id: taskId, data: vals })}
+            onSubmit={(vals) =>
+              updateTask.mutate(
+                { id: taskId, data: vals },
+                { onSuccess: () => onClose() }
+              )
+            }
           />
         </section>
 
-        <section className="bg-white border border-gray-200 p-8 mx-4 rounded-b-lg shadow-sm">
+        <section className="bg-white border border-gray-200 p-4 mx-4 rounded-b-lg shadow-sm">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Unteraufgaben
           </h3>
           <SubtaskList
             subtasks={subtasks}
-            onAdd={(vals) => add.mutate(vals)}
-            onUpdate={(id, data) => update.mutate({ id, data })}
-            onDelete={(id) => remove.mutate(id)}
+            onAdd={(v) => addSubtask.mutate(v)}
+            onUpdate={(id, data) => updateSubtask.mutate({ id, data })}
+            onDelete={(id) => removeSubtask.mutate(id)}
           />
+        </section>
+        <section className="mt-4">
+          <div className="p-4 flex justify-end space-x-2">
+            <UIButton type="button" variant="secondary" onClick={onClose}>
+              Abbrechen
+            </UIButton>
+            <UIButton type="submit" form={formId}>
+              Speichern
+            </UIButton>
+          </div>
         </section>
       </div>
     </aside>

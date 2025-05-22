@@ -1,16 +1,18 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import { StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
-import { UIButton } from "@components/ui";
 
 type Values = Pick<Task, "title" | "description" | "dueDate" | "status">;
+
 type Props = {
+  formId?: string;
   initial: Task;
   onSubmit: (v: Values) => void;
 };
 
-export const TaskDetailForm = ({ initial, onSubmit }: Props) => {
+export const TaskDetailForm = ({ formId, initial, onSubmit }: Props) => {
   const { register, handleSubmit } = useForm<Values>({
     defaultValues: {
       title: initial.title,
@@ -21,7 +23,7 @@ export const TaskDetailForm = ({ initial, onSubmit }: Props) => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form id={formId} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <label className="block mb-1 font-medium">Titel</label>
         <input
@@ -59,9 +61,7 @@ export const TaskDetailForm = ({ initial, onSubmit }: Props) => {
           </select>
         </div>
       </div>
-      <div className="flex justify-end">
-        <UIButton type="submit">Speichern</UIButton>
-      </div>
+      {/* Hier kein Submit-Button mehr */}
     </form>
   );
 };

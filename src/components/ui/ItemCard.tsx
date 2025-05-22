@@ -24,7 +24,7 @@ export const ItemCard = ({
 }: Props) => {
   const content = (
     <>
-      <h2 className="text-2xl font-semibold text-gray-600">{title}</h2>
+      <h2 className="text-lg font-semibold text-gray-600">{title}</h2>
       {description && <p className="mt-2 text-gray-600">{description}</p>}
       <div className="mt-3">{statusBadge}</div>
       {children}
@@ -32,8 +32,7 @@ export const ItemCard = ({
   );
 
   const containerClasses =
-    "block border border-gray-200 p-4 rounded-lg transition" +
-    (href ? " hover:bg-gray-50" : "");
+    "block border border-gray-200 p-4 rounded-lg transition hover:bg-gray-50";
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm">

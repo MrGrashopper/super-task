@@ -1,18 +1,26 @@
-// SubtaskForm.tsx
 "use client";
+
+import React from "react";
 import { useForm } from "react-hook-form";
+import { UIButton } from "@components/ui/Button";
 import { StatusLabels } from "@lib/constants";
 import type { Subtask } from "@lib/types";
-import { UIButton } from "@components/ui";
 
 type Values = Omit<Subtask, "id" | "taskId">;
+
 type Props = {
   initial: Values;
-  onSubmit: (v: Values) => void;
-  onCancel: () => void;
+  onSubmit: (vals: Values) => void;
+  onCancel?: () => void;
+  submitLabel?: string;
 };
 
-export const SubtaskForm = ({ initial, onSubmit, onCancel }: Props) => {
+export const SubtaskForm = ({
+  initial,
+  onSubmit,
+  onCancel,
+  submitLabel = "Hinzufügen",
+}: Props) => {
   const { register, handleSubmit } = useForm<Values>({
     defaultValues: initial,
   });
@@ -20,41 +28,53 @@ export const SubtaskForm = ({ initial, onSubmit, onCancel }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-3 bg-white p-3 rounded shadow"
+      className="space-y-4 bg-white p-4 rounded shadow-sm"
     >
-      <input
-        {...register("title", { required: true })}
-        placeholder="Titel"
-        className="w-full border border-gray-300 rounded px-2 py-1"
-      />
-      <textarea
-        {...register("description")}
-        placeholder="Beschreibung"
-        className="w-full border border-gray-300 rounded px-2 py-1"
-      />
-      <div className="grid grid-cols-2 gap-2">
+      <div>
+        <label className="block mb-1 font-medium">Titel</label>
         <input
-          type="date"
-          {...register("dueDate", { required: true })}
-          className="w-full border border-gray-300 rounded px-2 py-1"
+          {...register("title", { required: true })}
+          className="w-full border border-gray-300 rounded px-3 py-2"
         />
-        <select
-          {...register("status")}
-          className="w-full border border-gray-300 rounded px-2 py-1"
-        >
-          {Object.entries(StatusLabels).map(([s, label]) => (
-            <option key={s} value={s}>
-              {label}
-            </option>
-          ))}
-        </select>
       </div>
-      <div className="flex justify-end space-x-2">
-        <UIButton type="button" variant="secondary" onClick={onCancel}>
-          Abbrechen
-        </UIButton>
+      <div>
+        <label className="block mb-1 font-medium">Beschreibung</label>
+        <textarea
+          {...register("description")}
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block mb-1 font-medium">Fälligkeitsdatum</label>
+          <input
+            type="date"
+            {...register("dueDate", { required: true })}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+        </div>
+        <div>
+          <label className="block mb-1 font-medium">Status</label>
+          <select
+            {...register("status")}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          >
+            {Object.entries(StatusLabels).map(([s, label]) => (
+              <option key={s} value={s}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="flex justify-end space-x-2 text-sm text-gray-400">
+        {onCancel && (
+          <UIButton type="button" variant="secondary" onClick={onCancel}>
+            Abbrechen
+          </UIButton>
+        )}
         <UIButton type="submit" variant="ghost">
-          Hinzufügen{" "}
+          {submitLabel}
         </UIButton>
       </div>
     </form>

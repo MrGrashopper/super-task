@@ -14,7 +14,7 @@ export const TaskList = ({ tasks }: Props) => {
   return (
     <>
       {tasks.map((task) => (
-        <div key={task.id} className="pl-4 border-l mb-4">
+        <div key={task.id} className="pl-4 border-l border-gray-200 mb-4">
           <div className="flex justify-between items-center">
             <span className="font-medium">{task.title}</span>
             <span className="text-xs">
