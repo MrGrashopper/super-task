@@ -69,7 +69,7 @@ export const SubtaskForm = ({
       </div>
       <div className="flex justify-end space-x-2 text-sm text-gray-400">
         {onCancel && (
-          <UIButton type="button" variant="secondary" onClick={onCancel}>
+          <UIButton type="button" variant="abort" onClick={onCancel}>
             Abbrechen
           </UIButton>
         )}

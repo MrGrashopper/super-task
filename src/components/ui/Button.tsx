@@ -6,7 +6,7 @@ type UIButtonProps = {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   form?: string;
-  variant?: "primary" | "secondary" | "icon" | "ghost";
+  variant?: "primary" | "abort" | "icon" | "ghost";
   children: React.ReactNode;
 };
 
@@ -22,7 +22,7 @@ export const UIButton = ({
   const style =
     variant === "primary"
       ? "border border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white rounded-full"
-      : variant === "secondary"
+      : variant === "abort"
       ? "text-gray-700 hover:text-red-700 rounded-full"
       : variant === "icon"
       ? "text-gray-700 hover:bg-gray-200 rounded-full"

@@ -13,7 +13,7 @@ export const ProjectForm = ({ onClose }: { onClose: () => void }) => {
   };
   const handleSave = (v: FormData) =>
     add.mutate(
-      { ...v, dueDate: new Date(v.dueDate).toISOString() },
+      { ...v, dueDate: new Date(v.dueDate).toISOString(), tasks: [] },
       { onSuccess: onClose }
     );
 

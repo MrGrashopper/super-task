@@ -79,7 +79,7 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
         </section>
         <section className="mt-4">
           <div className="p-4 flex justify-end space-x-2">
-            <UIButton type="button" variant="secondary" onClick={onClose}>
+            <UIButton type="button" variant="abort" onClick={onClose}>
               Abbrechen
             </UIButton>
             <UIButton type="submit" form={formId}>
