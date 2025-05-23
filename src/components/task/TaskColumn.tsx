@@ -10,6 +10,7 @@ import { SortableTask } from "./SortableTask";
 import { TaskCard } from "./TaskCard";
 import { TaskForm } from "./TaskForm";
 import type { Task, Status } from "@lib/types";
+import { UIButton } from "@components/ui";
 
 type Props = {
   projectId: string;
@@ -66,13 +67,11 @@ export const TaskColumn = ({
         </div>
       )}
       <div ref={setNodeRef} className="flex flex-col min-w-[16rem] w-full">
-        <div
-          role="button"
-          onClick={() => setOpen(true)}
-          className="bg-white rounded-lg shadow-sm mb-4 p-2 flex justify-between items-center hover:bg-gray-50 cursor-pointer"
-        >
-          <h4 className="font-medium">{label}</h4>
-          <Plus size={16} className="text-gray-500" />
+        <div className="bg-white rounded-lg shadow-sm mb-4 p-2 flex justify-between items-center">
+          <h4 className="font-medium ml-2">{label}</h4>
+          <UIButton onClick={() => setOpen(true)} variant="icon">
+            <Plus size={16} className="text-gray-500" />
+          </UIButton>
         </div>
         <SortableContext
           items={tasks.map((t) => t.id)}

@@ -7,6 +7,7 @@ import { useSubtasks } from "hooks/useSubtasks";
 import { TaskDetailForm } from "./TaskDetailForm";
 import { SubtaskList } from "./SubtaskList";
 import { UIButton } from "@components/ui";
+import { FullPageLoader } from "@components/ui";
 
 type Props = {
   taskId: string;
@@ -25,11 +26,13 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
 
   const formId = `task-detail-form-${taskId}`;
 
-  if (isLoading) return <div className="p-4">Lade…</div>;
-  if (!task) return <div className="p-4">Aufgabe nicht gefunden</div>;
+  if (isLoading) return <FullPageLoader />;
+  if (!task)
+    return <div className="p-4">Aufgabe konnte nicht geladen werden.</div>;
 
   return (
     <aside
+      onClick={(e) => e.stopPropagation()}
       className={`
         fixed inset-y-0 right-0 bg-white shadow-lg
         w-full sm:w-80 md:w-96 lg:w-4/5 xl:w-3/5 flex flex-col

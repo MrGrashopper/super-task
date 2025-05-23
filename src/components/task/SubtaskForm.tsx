@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { UIButton } from "@components/ui/Button";
+import { UIButton } from "@components/ui";
 import { StatusLabels } from "@lib/constants";
 import type { Subtask } from "@lib/types";
 

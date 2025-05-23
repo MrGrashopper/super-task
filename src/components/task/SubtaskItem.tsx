@@ -44,13 +44,13 @@ const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
     <div className="bg-gray-50 p-3 rounded flex justify-between items-start">
       <div>
         <div
-          className={`px-2 py-1 mb-4 rounded justify-end text-xs ${getStatusClass(
+          className={`px-2 py-1 mb-2 rounded justify-end text-xs ${getStatusClass(
             subtask.status
           )}`}
         >
           {StatusLabels[subtask.status]}
         </div>
-        <h4 className="font-medium">{subtask.title}</h4>
+        <h4>{subtask.title}</h4>
         {subtask.description && (
           <p className="text-sm text-gray-600">{subtask.description}</p>
         )}

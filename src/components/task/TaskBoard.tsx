@@ -71,10 +71,15 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       </div>
 
       {selectedTask && (
-        <TaskDetailSidebar
-          taskId={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
+        <div
+          className="fixed inset-0 z-40 bg-black/20"
+          onClick={() => setSelectedTask(null)}
+        >
+          <TaskDetailSidebar
+            taskId={selectedTask}
+            onClose={() => setSelectedTask(null)}
+          />
+        </div>
       )}
 
       <DragOverlay dropAnimation={null}>

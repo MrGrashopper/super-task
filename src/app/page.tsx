@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { LoadingState } from "@components/ui/LoadingState";
-import { ErrorState } from "@components/ui/ErrorState";
-import { EmptyState } from "@components/ui/EmptyState";
+import { ErrorState } from "@components/ui";
+import { EmptyState } from "@components/ui";
 import { Dashboard } from "@components/project/Dashboard";
-import { Modal } from "@components/ui/Modal";
+import { Modal } from "@components/ui";
 import { ProjectForm } from "@components/project/ProjectForm";
 import { useProjects } from "hooks/useProjects";
+import { FullPageLoader } from "@components/ui";
 
 const Page = () => {
   const { data: projects = [], isLoading, isError } = useProjects();
@@ -15,7 +15,7 @@ const Page = () => {
   const openForm = () => setOpen(true);
   const closeForm = () => setOpen(false);
 
-  if (isLoading) return <LoadingState text="Lade Projekte…" />;
+  if (isLoading) return <FullPageLoader />;
   if (isError) return <ErrorState text="Fehler beim Laden der Projekte." />;
 
   return (
