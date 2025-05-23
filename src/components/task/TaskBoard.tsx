@@ -27,9 +27,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const [localTasks, setLocalTasks] = useState<Task[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
-
   const updateStatusMutation = update;
-
   const reorderMutation = useMutation<
     void,
     Error,
@@ -106,9 +104,9 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       );
 
       setLocalTasks((all) => {
-        const updated = all.map((t) => {
-          const o = newOrder.find((x) => x.id === t.id);
-          return o ? { ...t, order: o.order } : t;
+        const updated = all.map((task) => {
+          const order = newOrder.find((x) => x.id === task.id);
+          return order ? { ...task, order: order.order } : task;
         });
         const left = updated.filter((t) => t.status !== oldStatus);
         const right = updated

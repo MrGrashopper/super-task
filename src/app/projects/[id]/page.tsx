@@ -71,7 +71,7 @@ const ProjectPage = () => {
           <p className="text-sm text-gray-600">
             {project.tasks.length === 0
               ? 'Klicke auf "+" Symbol um eine neue Aufgabe hinzuzufügen.'
-              : "Ziehe eine Karte in eine andere Spalte um den Status zu ändern"}
+              : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern"}
           </p>
         </div>
       </main>

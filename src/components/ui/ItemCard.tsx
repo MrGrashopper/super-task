@@ -45,7 +45,7 @@ export const ItemCard = ({
   );
 
   const containerClasses =
-    "block border border-gray-200 p-4 rounded-lg transition hover:bg-gray-50";
+    "block border border-gray-200 p-4 rounded-lg transition hover:border-gray-300";
 
   return (
     <div className="p-2 bg-white rounded-lg shadow-sm">
