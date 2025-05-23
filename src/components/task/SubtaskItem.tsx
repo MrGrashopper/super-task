@@ -12,7 +12,7 @@ type Props = {
   onDelete: (id: string) => void;
 };
 
-const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
+export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
   const [editing, setEditing] = useState(false);
 
   const handleDelete = () => {
@@ -76,5 +76,3 @@ const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
     </div>
   );
 };
-
-export default SubtaskItem;

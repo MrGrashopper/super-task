@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { Subtask } from "@lib/types";
-import SubtaskItem from "./SubtaskItem";
+import { SubtaskItem } from "./SubtaskItem";
 import { SubtaskForm } from "./SubtaskForm";
 
 type Props = {
