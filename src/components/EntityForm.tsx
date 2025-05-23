@@ -3,19 +3,12 @@
 import { useForm } from "react-hook-form";
 import { UIButton } from "@ui/Button";
 import { StatusLabels } from "@lib/constants";
-import type { Status } from "@lib/types";
-
-type Values = {
-  title: string;
-  description?: string;
-  dueDate: string;
-  status: Status;
-};
+import type { FormData } from "@lib/types";
 
 type Props = {
   headline?: string;
-  defaultValues: Values;
-  onSubmit: (v: Values) => void;
+  defaultValues: FormData;
+  onSubmit: (v: FormData) => void;
   onClose?: () => void;
   onDelete?: () => void;
   inline?: boolean;
@@ -29,7 +22,7 @@ export const EntityForm = ({
   onDelete,
   inline = false,
 }: Props) => {
-  const { register, handleSubmit } = useForm<Values>({ defaultValues });
+  const { register, handleSubmit } = useForm<FormData>({ defaultValues });
 
   if (inline) {
     return (

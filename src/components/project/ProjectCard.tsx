@@ -36,12 +36,12 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         href={`/projects/${project.id}`}
       >
         <div className="mt-4">
-          <div className="flex items-center gap-4 text-gray-600 justify-end">
-            <div className="flex items-center gap-1">
+          <div className="flex items-center space-x-4 text-gray-600 justify-end">
+            <div className="flex items-center space-x-1">
               <span>{tasksLength}</span>
               <Folder size={16} />
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center space-x-1">
               <span>{subtasksLength}</span>
               <FolderTree size={16} />
             </div>

@@ -59,7 +59,7 @@ const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
         </div>
       </div>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end space-x-2">
         <button onClick={() => setEditing(true)} aria-label="Bearbeiten">
           <Edit2
             size={16}

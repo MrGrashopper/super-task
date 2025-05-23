@@ -77,7 +77,7 @@ export const TaskColumn = ({
           items={tasks.map((t) => t.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col space-y-2">
             {tasks.length === 0 && (
               <div
                 className={`rounded-lg border-2 border-dashed min-h-[96px] flex items-center justify-center ${

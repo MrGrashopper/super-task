@@ -1,33 +1,92 @@
-// app/projects/[id]/page.tsx
 "use client";
 
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { TaskBoard } from "@task/TaskBoard";
+import { TaskBoard } from "@task";
 import { useProject } from "hooks/useProject";
 import { getStatusClass, StatusLabels } from "@lib/constants";
+import { Edit2, Lightbulb } from "lucide-react";
+import { UIButton } from "@components/ui";
+import { EntityForm } from "@components/EntityForm";
+import type { FormData } from "@lib/types";
 
 const ProjectPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: project, isLoading, isError } = useProject(id);
+  const {
+    data: project,
+    isLoading,
+    isError,
+    update: updateProject,
+  } = useProject(id);
+
+  const [isEditing, setIsEditing] = useState(false);
 
   if (isLoading) return <div className="p-4">Lade Projekt…</div>;
   if (!id || isError || !project)
     return <div className="p-4">Projekt nicht gefunden</div>;
 
+  const defaultValues = {
+    title: project.title,
+    description: project.description,
+    dueDate: project.dueDate.slice(0, 10),
+    status: project.status,
+  };
+
+  const handleSave = (vals: FormData) => {
+    updateProject.mutate(vals, {
+      onSuccess: () => setIsEditing(false),
+    });
+  };
+
   return (
-    <main className="p-6 space-y-6">
-      <div className="flex justify-between container mx-auto items-center">
-        <h2 className="font-main text-2xl text-gray-600">{project.title}</h2>
-        <span
-          className={`inline-block px-2 py-1 rounded ${getStatusClass(
-            project.status
-          )}`}
-        >
-          {StatusLabels[project.status]}
-        </span>
-      </div>
-      <TaskBoard projectId={id} />
-    </main>
+    <>
+      <main className="p-6 space-y-6">
+        <div className="container mx-auto">
+          <div className="flex items-center">
+            <h2 className="font-main text-2xl text-gray-600 mr-2">
+              {project.title}
+            </h2>
+            <div className="ml-auto flex items-center space-x-2">
+              <div
+                className={`inline-block px-2 py-1 rounded ${getStatusClass(
+                  project.status
+                )}`}
+              >
+                {StatusLabels[project.status]}
+              </div>
+              <UIButton variant="icon" onClick={() => setIsEditing(true)}>
+                <Edit2 size={22} className="text-gray-400" />
+              </UIButton>
+            </div>
+          </div>
+          <h3 className="text-xl text-gray-400 text-sm">
+            {project.description}
+          </h3>
+        </div>
+
+        <TaskBoard projectId={id} />
+
+        <div className="fixed inset-x-0 bottom-6 flex justify-center items-center space-x-1">
+          <Lightbulb size={22} className="text-yellow-400" />
+          <p className="text-sm text-gray-600">
+            {project.tasks.length === 0
+              ? 'Klicke auf "+" Symbol um eine neue Spalte hinzuzufügen.'
+              : "Ziehe eine Karte in eine andere Spalte um den Status zu ändern"}
+          </p>
+        </div>
+      </main>
+
+      {isEditing && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center p-4 z-50">
+          <EntityForm
+            headline="Projekt bearbeiten"
+            defaultValues={defaultValues}
+            onSubmit={handleSave}
+            onClose={() => setIsEditing(false)}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

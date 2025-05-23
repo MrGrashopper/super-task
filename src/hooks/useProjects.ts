@@ -1,15 +1,15 @@
-import { FormData, Project } from "@lib/types";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Project } from "@lib/types";
 
 export const useProjects = () => {
   const qc = useQueryClient();
+
   const query = useQuery<Project[]>({
     queryKey: ["projects"],
-    queryFn: () =>
-      fetch("/api/projects").then((r) => r.json() as Promise<Project[]>),
+    queryFn: () => fetch("/api/projects").then((r) => r.json()),
   });
 
-  const add = useMutation<Project, Error, FormData>({
+  const add = useMutation<Project, Error, Omit<Project, "id">>({
     mutationFn: (newProj) =>
       fetch("/api/projects", {
         method: "POST",
@@ -33,9 +33,9 @@ export const useProjects = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["projects"] }),
   });
 
-  const remove = useMutation<Project, Error, string>({
+  const remove = useMutation<void, Error, string>({
     mutationFn: (id) =>
-      fetch(`/api/projects/${id}`, { method: "DELETE" }).then((r) => r.json()),
+      fetch(`/api/projects/${id}`, { method: "DELETE" }).then(() => {}),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["projects"] }),
   });
 
