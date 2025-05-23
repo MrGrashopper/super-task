@@ -8,7 +8,7 @@ export async function GET(
   const { id } = await context.params;
   const tasks = await prisma.task.findMany({
     where: { projectId: id },
-    orderBy: { createdAt: "asc" },
+    orderBy: { order: "asc" },
     include: { subtasks: true },
   });
   return NextResponse.json(tasks);

@@ -16,6 +16,7 @@ export type Task = {
   description?: string;
   dueDate: string;
   status: Status;
+  order: number;
   subtasks: Subtask[];
 };
 

@@ -70,7 +70,7 @@ const ProjectPage = () => {
           <Lightbulb size={22} className="text-yellow-400" />
           <p className="text-sm text-gray-600">
             {project.tasks.length === 0
-              ? 'Klicke auf "+" Symbol um eine neue Spalte hinzuzufügen.'
+              ? 'Klicke auf "+" Symbol um eine neue Aufgabe hinzuzufügen.'
               : "Ziehe eine Karte in eine andere Spalte um den Status zu ändern"}
           </p>
         </div>

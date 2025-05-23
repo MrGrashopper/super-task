@@ -7,7 +7,9 @@ export const useTasks = (projectId: string) => {
   const query = useQuery<Task[]>({
     queryKey: ["tasks", projectId],
     queryFn: () =>
-      fetch(`/api/projects/${projectId}/tasks`).then((r) => r.json()),
+      fetch(`/api/projects/${projectId}/tasks?sort=order`).then((r) =>
+        r.json()
+      ),
   });
 
   const add = useMutation<

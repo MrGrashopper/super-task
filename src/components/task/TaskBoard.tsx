@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import {
   DndContext,
   DragStartEvent,
@@ -11,18 +12,58 @@ import {
   MouseSensor,
   TouchSensor,
 } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StatusLabels } from "@lib/constants";
-import type { Status } from "@lib/types";
+import type { Status, Task } from "@lib/types";
 import { useTasks } from "hooks/useTasks";
 import { TaskColumn } from "./TaskColumn";
 import { TaskCard } from "./TaskCard";
 import { TaskDetailSidebar } from "./TaskDetailSidebar";
 
 export const TaskBoard = ({ projectId }: { projectId: string }) => {
+  const qc = useQueryClient();
   const { data: tasks = [], update } = useTasks(projectId);
-  const statuses = Object.keys(StatusLabels) as Status[];
-  const [selectedTask, setSelectedTask] = useState<string | null>(null);
+  const [localTasks, setLocalTasks] = useState<Task[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [selectedTask, setSelectedTask] = useState<string | null>(null);
+
+  const updateStatusMutation = update;
+
+  const reorderMutation = useMutation<
+    void,
+    Error,
+    {
+      projectId: string;
+      status: Status;
+      newOrder: { id: string; order: number }[];
+    }
+  >({
+    mutationFn: ({ projectId, status, newOrder }) =>
+      fetch("/api/tasks/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ projectId, status, newOrder }),
+      }).then((r) => {
+        if (!r.ok) throw new Error("Reorder failed");
+      }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks", projectId] }),
+  });
+
+  useEffect(() => {
+    if (
+      !reorderMutation.isPending &&
+      !updateStatusMutation.isPending &&
+      activeId === null
+    ) {
+      setLocalTasks(tasks);
+    }
+  }, [
+    tasks,
+    activeId,
+    reorderMutation.isPending,
+    updateStatusMutation.isPending,
+  ]);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -34,19 +75,56 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const handleDragStart = ({ active }: DragStartEvent) => {
     setActiveId(active.id as string);
   };
+
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    setActiveId(null);
-    if (!over) return;
-    const newStatus =
-      (over.data.current?.status as Status | undefined) ??
-      (statuses.includes(over.id as Status) ? (over.id as Status) : undefined);
-    const oldStatus = active.data.current?.status as Status;
-    if (newStatus && newStatus !== oldStatus) {
-      update.mutate({ id: active.id as string, data: { status: newStatus } });
+    if (!over) {
+      setActiveId(null);
+      return;
     }
+
+    const oldStatus = active.data.current?.status as Status;
+    const newStatus = over.data.current?.status as Status;
+
+    if (newStatus && newStatus !== oldStatus) {
+      setLocalTasks((all) =>
+        all.map((t) => (t.id === active.id ? { ...t, status: newStatus } : t))
+      );
+      updateStatusMutation.mutate({
+        id: active.id as string,
+        data: { status: newStatus },
+      });
+      setActiveId(null);
+      return;
+    }
+
+    if (newStatus === oldStatus) {
+      const columnTasks = localTasks.filter((t) => t.status === oldStatus);
+      const oldIndex = columnTasks.findIndex((t) => t.id === active.id);
+      const newIndex = columnTasks.findIndex((t) => t.id === over.id);
+      const newOrder = arrayMove(columnTasks, oldIndex, newIndex).map(
+        (t, idx) => ({ id: t.id, order: idx })
+      );
+
+      setLocalTasks((all) => {
+        const updated = all.map((t) => {
+          const o = newOrder.find((x) => x.id === t.id);
+          return o ? { ...t, order: o.order } : t;
+        });
+        const left = updated.filter((t) => t.status !== oldStatus);
+        const right = updated
+          .filter((t) => t.status === oldStatus)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        return [...left, ...right];
+      });
+
+      reorderMutation.mutate({ projectId, status: oldStatus, newOrder });
+    }
+
+    setActiveId(null);
   };
 
-  const activeTask = tasks.find((t) => t.id === activeId);
+  const activeTask = localTasks.find((t) => t.id === activeId);
+  const statuses = Object.keys(StatusLabels) as Status[];
 
   return (
     <DndContext
@@ -60,10 +138,10 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
           {statuses.map((status) => (
             <TaskColumn
               key={status}
-              columnStatus={status}
               projectId={projectId}
+              columnStatus={status}
               label={StatusLabels[status]}
-              tasks={tasks.filter((t) => t.status === status)}
+              tasks={localTasks.filter((t) => t.status === status)}
               onTaskClick={setSelectedTask}
             />
           ))}
@@ -82,7 +160,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
         </div>
       )}
 
-      <DragOverlay dropAnimation={null}>
+      <DragOverlay dropAnimation={{ duration: 200, easing: "ease-out" }}>
         {activeTask && (
           <div className="min-w-[16rem] w-full">
             <TaskCard projectId={projectId} task={activeTask} />
