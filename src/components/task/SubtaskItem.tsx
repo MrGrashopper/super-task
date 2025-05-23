@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Trash2, Edit2 } from "lucide-react";
-import { StatusLabels } from "@lib/constants";
+import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Subtask } from "@lib/types";
 import { SubtaskForm } from "./SubtaskForm";
 
@@ -43,16 +43,23 @@ const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
   return (
     <div className="bg-gray-50 p-3 rounded flex justify-between items-start">
       <div>
+        <div
+          className={`px-2 py-1 mb-4 rounded justify-end text-xs ${getStatusClass(
+            subtask.status
+          )}`}
+        >
+          {StatusLabels[subtask.status]}
+        </div>
         <h4 className="font-medium">{subtask.title}</h4>
         {subtask.description && (
           <p className="text-sm text-gray-600">{subtask.description}</p>
         )}
-        <div className="mt-1 text-xs text-gray-500">
-          {new Date(subtask.dueDate).toLocaleDateString("de-DE")} •{" "}
-          {StatusLabels[subtask.status]}
+        <div className="mt-1 text-xs text-gray-500 flex items-center justify-between">
+          <span>{new Date(subtask.dueDate).toLocaleDateString("de-DE")}</span>
         </div>
       </div>
-      <div className="flex space-x-2">
+
+      <div className="flex justify-end gap-2">
         <button onClick={() => setEditing(true)} aria-label="Bearbeiten">
           <Edit2
             size={16}

@@ -24,9 +24,22 @@ export const ItemCard = ({
 }: Props) => {
   const content = (
     <>
-      <h2 className="text-lg font-semibold text-gray-600">{title}</h2>
-      {description && <p className="mt-2 text-gray-600">{description}</p>}
-      <div className="mt-3">{statusBadge}</div>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-600">{title}</h2>
+        <div>{statusBadge}</div>
+      </div>
+      {description && (
+        <p
+          className="my-2 text-gray-600 truncate mr-14"
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {description}
+        </p>
+      )}
       {children}
     </>
   );
@@ -35,7 +48,7 @@ export const ItemCard = ({
     "block border border-gray-200 p-4 rounded-lg transition hover:bg-gray-50";
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-sm">
+    <div className="p-2 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <span className="text-sm text-gray-500">
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}

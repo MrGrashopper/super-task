@@ -1,3 +1,4 @@
+//TODO maybe delete
 "use client";
 
 import React from "react";
@@ -8,14 +9,14 @@ type Props = { subtasks: Subtask[] };
 
 export const SubtaskList = ({ subtasks }: Props) => {
   if (subtasks.length === 0) {
-    return <div className="text-gray-500">Keine Unteraufgaben.</div>;
+    return <div className="text-gray-500">Keine Teilaufgaben.</div>;
   }
 
   return (
-    <>
+    <div className="border border-gray-200 p-2 mt-4 rounded-lg">
       {subtasks.map((sub) => (
-        <div key={sub.id} className="pl-4 border-l border-gray-200 mt-4">
-          <div className="flex items-center text-sm mb-1">
+        <div key={sub.id} className="pl-4 mt-2 border-gray-200">
+          <div className="flex items-center text-sm">
             <span>{sub.title}</span>
             <div className="flex items-center space-x-2 ml-auto">
               <span
@@ -29,6 +30,6 @@ export const SubtaskList = ({ subtasks }: Props) => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };

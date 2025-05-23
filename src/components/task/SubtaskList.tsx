@@ -44,7 +44,7 @@ export const SubtaskList = ({ subtasks, onAdd, onUpdate, onDelete }: Props) => {
           onClick={() => setAdding(true)}
           className="cursor-pointer text-gray-400 hover:text-gray-800"
         >
-          + Neue Unteraufgabe
+          + Neue Teilaufgabe
         </button>
       )}
     </div>

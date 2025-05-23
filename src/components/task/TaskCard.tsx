@@ -5,7 +5,7 @@ import { ItemCard } from "@ui/ItemCard";
 import { useTasks } from "hooks/useTasks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
-import { SubtaskList } from "@components/project";
+import { FolderTree } from "lucide-react";
 
 type Props = {
   task: Task;
@@ -37,10 +37,10 @@ export const TaskCard = ({ task, projectId }: Props) => {
       onDelete={onDelete}
     >
       {task.subtasks.length > 0 && (
-        <>
-          <h3 className="font-medium text-gray-600">Unteraufgaben</h3>
-          <SubtaskList subtasks={task.subtasks} />
-        </>
+        <div className="flex items-center gap-1 justify-end">
+          <span>{task.subtasks.length}</span>
+          <FolderTree size={16} />
+        </div>
       )}
     </ItemCard>
   );
