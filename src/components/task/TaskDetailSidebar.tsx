@@ -36,7 +36,7 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
       onClick={(e) => e.stopPropagation()}
       className={`
         fixed inset-y-0 right-0 bg-white shadow-lg
-        w-full sm:w-80 md:w-96 lg:w-4/5 xl:w-3/5 flex flex-col
+        w-full sm:w-4/5 xl:w-3/5 flex flex-col
       `}
     >
       <header className="flex items-center justify-between p-4">

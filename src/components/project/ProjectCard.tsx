@@ -28,7 +28,7 @@ export const ProjectCard = ({ project, onEdit }: Props) => {
   );
 
   return (
-    <div className="break-inside-avoid mb-6">
+    <div className="break-inside-avoid">
       <ItemCard
         title={project.title}
         description={project.description}

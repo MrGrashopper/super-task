@@ -1,9 +1,8 @@
-"use client";
-
 import React from "react";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Status } from "@lib/types";
 import { ChevronDown } from "lucide-react";
+import { Tooltip } from "@components/ui";
 
 export type StatusBadgeVariant = "default" | "small";
 
@@ -31,7 +30,7 @@ export const StatusBadge: React.FC<Props> = ({
   if (editable && onChange) {
     return (
       <div
-        className={`relative inline-block ${sizeClasses} rounded ${bgTextClasses} ${className}`}
+        className={`relative inline-block group ${sizeClasses} rounded ${bgTextClasses} ${className}`}
       >
         <select
           value={status}
@@ -48,6 +47,7 @@ export const StatusBadge: React.FC<Props> = ({
           size={16}
           className="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-current"
         />
+        <Tooltip>Status ändern</Tooltip>
       </div>
     );
   }
