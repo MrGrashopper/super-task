@@ -36,12 +36,10 @@ export const TaskCard = ({ task, projectId }: Props) => {
       }
       onDelete={onDelete}
     >
-      {task.subtasks.length > 0 && (
-        <div className="flex items-center space-x-1 justify-end">
-          <span>{task.subtasks.length}</span>
-          <FolderTree size={16} />
-        </div>
-      )}
+      <div className="flex items-center space-x-1 justify-end">
+        <span>{task.subtasks.length}</span>
+        <FolderTree size={16} />
+      </div>
     </ItemCard>
   );
 };

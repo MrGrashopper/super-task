@@ -6,7 +6,7 @@ import { TaskBoard } from "@task";
 import { useProject } from "hooks/useProject";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import { Edit2, Lightbulb } from "lucide-react";
-import { UIButton } from "@components/ui";
+import { FullPageLoader, UIButton } from "@components/ui";
 import { EntityForm } from "@components/EntityForm";
 import type { FormData } from "@lib/types";
 
@@ -21,7 +21,7 @@ const ProjectPage = () => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  if (isLoading) return <div className="p-4">Lade Projekt…</div>;
+  if (isLoading) return <FullPageLoader />;
   if (!id || isError || !project)
     return <div className="p-4">Projekt nicht gefunden</div>;
 
