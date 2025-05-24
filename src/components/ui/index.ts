@@ -6,3 +6,4 @@ export * from "./Modal";
 export * from "./ItemCard";
 export * from "./Modal";
 export * from "./Tooltip";
+export * from "./StatusBadge";

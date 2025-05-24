@@ -5,9 +5,8 @@ import { useParams } from "next/navigation";
 import { TaskBoard } from "@task";
 import { useProject } from "@hooks";
 import { useTasks } from "@hooks";
-import { getStatusClass, StatusLabels } from "@lib/constants";
 import { Edit2, Lightbulb } from "lucide-react";
-import { FullPageLoader, UIButton } from "@components/ui";
+import { FullPageLoader, StatusBadge, UIButton } from "@components/ui";
 import { EntityForm } from "@components/EntityForm";
 import type { FormData } from "@lib/types";
 
@@ -51,13 +50,14 @@ const ProjectPage = () => {
               {project.title}
             </h2>
             <div className="ml-auto flex items-center space-x-2">
-              <div
-                className={`inline-block px-2 py-1 rounded ${getStatusClass(
-                  project.status
-                )}`}
-              >
-                {StatusLabels[project.status]}
-              </div>
+              <StatusBadge
+                status={project.status}
+                variant="default"
+                editable
+                onChange={(newStatus) =>
+                  updateProject.mutate({ status: newStatus })
+                }
+              />
               <UIButton
                 variant="icon"
                 onClick={() => setIsEditing(true)}

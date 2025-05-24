@@ -3,10 +3,9 @@
 import React from "react";
 import { ItemCard } from "@ui/ItemCard";
 import { useProjects } from "@hooks";
-import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Project } from "@lib/types";
 import { Folder, FolderTree } from "lucide-react";
-import { Tooltip } from "@components/ui";
+import { StatusBadge, Tooltip } from "@components/ui";
 
 type Props = {
   project: Project;
@@ -34,15 +33,7 @@ export const ProjectCard = ({ project, onEdit }: Props) => {
         title={project.title}
         description={project.description}
         dueDate={project.dueDate}
-        statusBadge={
-          <span
-            className={`inline-block px-2 py-1 text-xs rounded ${getStatusClass(
-              project.status
-            )}`}
-          >
-            {StatusLabels[project.status]}
-          </span>
-        }
+        statusBadge={<StatusBadge status={project.status} variant="small" />}
         editable
         onEdit={() => onEdit(project)}
         onDelete={onDelete}

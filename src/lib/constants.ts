@@ -15,6 +15,6 @@ export const getStatusClass = (status: string): string => {
 
 export const StatusLabels: Record<Status, string> = {
   Open: "Offen",
-  InProgress: "In Bearbeitung",
+  InProgress: "In Arbeit",
   Done: "Erledigt",
 };

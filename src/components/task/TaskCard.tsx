@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ItemCard } from "@ui";
+import { ItemCard, StatusBadge } from "@ui";
 import { useTasks } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
@@ -26,13 +26,11 @@ export const TaskCard = ({ task, projectId }: Props) => {
       description={task.description}
       dueDate={task.dueDate}
       statusBadge={
-        <span
-          className={`inline-block px-2 py-0.5 text-xs rounded ${getStatusClass(
-            task.status
-          )}`}
-        >
-          {StatusLabels[task.status]}
-        </span>
+        <StatusBadge
+          status={task.status}
+          className={getStatusClass(task.status)}
+          variant="small"
+        />
       }
       onDelete={onDelete}
     >
