@@ -62,6 +62,7 @@ export const TaskColumn = ({
           <TaskForm
             projectId={projectId}
             columnStatus={columnStatus}
+            nextOrder={tasks.length}
             onClose={() => setOpen(false)}
           />
         </div>

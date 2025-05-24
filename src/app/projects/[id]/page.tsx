@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { TaskBoard } from "@task";
 import { useProject } from "hooks/useProject";
+import { useTasks } from "hooks/useTasks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import { Edit2, Lightbulb } from "lucide-react";
 import { FullPageLoader, UIButton } from "@components/ui";
@@ -14,18 +15,19 @@ const ProjectPage = () => {
   const { id } = useParams<{ id: string }>();
   const {
     data: project,
-    isLoading,
+    isLoading: projectLoading,
     isError,
     update: updateProject,
   } = useProject(id);
+  const { data: tasks = [] } = useTasks(id);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  if (isLoading) return <FullPageLoader />;
+  if (projectLoading) return <FullPageLoader />;
   if (!id || isError || !project)
     return <div className="p-4">Projekt nicht gefunden</div>;
 
-  const defaultValues = {
+  const defaultValues: FormData = {
     title: project.title,
     description: project.description,
     dueDate: project.dueDate.slice(0, 10),
@@ -38,9 +40,11 @@ const ProjectPage = () => {
     });
   };
 
+  const emptyBoard = tasks.length === 0;
+
   return (
     <>
-      <main className="p-6 space-y-6">
+      <main className="p-6 flex flex-col min-h-[calc(100vh-theme(spacing.16))] space-y-6">
         <div className="container mx-auto">
           <div className="flex items-center">
             <h2 className="font-main text-2xl text-gray-600 mr-2">
@@ -66,10 +70,10 @@ const ProjectPage = () => {
 
         <TaskBoard projectId={id} />
 
-        <div className="fixed inset-x-0 bottom-6 flex justify-center items-center space-x-1">
+        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
           <Lightbulb size={22} className="text-yellow-400" />
-          <p className="text-sm text-gray-600">
-            {project.tasks.length === 0
+          <p className="text-sm text-gray-600 text-center">
+            {emptyBoard
               ? 'Klicke auf "+" Symbol um eine neue Aufgabe hinzuzufügen.'
               : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern"}
           </p>

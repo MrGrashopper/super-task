@@ -3,15 +3,19 @@ import { useTasks } from "hooks/useTasks";
 import { EntityForm } from "@components/EntityForm";
 import type { FormData, Status } from "@lib/types";
 
+type Props = {
+  projectId: string;
+  onClose: () => void;
+  columnStatus: Status;
+  nextOrder: number;
+};
+
 export const TaskForm = ({
   projectId,
   onClose,
   columnStatus,
-}: {
-  projectId: string;
-  onClose: () => void;
-  columnStatus: Status;
-}) => {
+  nextOrder,
+}: Props) => {
   const { add } = useTasks(projectId);
 
   const defaultValues: FormData = {
@@ -25,8 +29,8 @@ export const TaskForm = ({
     add.mutate(
       {
         ...v,
-        status: columnStatus,
         dueDate: new Date(v.dueDate).toISOString(),
+        order: nextOrder,
       },
       { onSuccess: onClose }
     );
