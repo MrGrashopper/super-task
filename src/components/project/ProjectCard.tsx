@@ -43,6 +43,7 @@ export const ProjectCard = ({ project, onEdit }: Props) => {
             {StatusLabels[project.status]}
           </span>
         }
+        editable
         onEdit={() => onEdit(project)}
         onDelete={onDelete}
         href={`/projects/${project.id}`}

@@ -13,6 +13,7 @@ type Props = {
   children?: ReactNode;
   onDelete: () => void;
   onEdit?: () => void;
+  editable?: boolean;
 };
 
 export const ItemCard = ({
@@ -24,6 +25,7 @@ export const ItemCard = ({
   children,
   onDelete,
   onEdit,
+  editable = false,
 }: Props) => {
   const noWrapStyle = {
     whiteSpace: "nowrap",
@@ -61,19 +63,25 @@ export const ItemCard = ({
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
         </span>
         <div className="flex">
-          <UIButton
-            variant="icon"
-            aria-label="Bearbeiten"
-            tooltip="Bearbeiten"
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit?.();
-            }}
-            className="text-gray-400 hover:text-gray-600 transition"
-          >
-            <Edit2 size={18} />
-          </UIButton>
+          {editable && (
+            <UIButton
+              variant="icon"
+              aria-label="Bearbeiten"
+              tooltip="Bearbeiten"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit?.();
+              }}
+              className="group text-gray-400 hover:text-gray-600 transition"
+              isLightBgHover
+            >
+              <Edit2
+                size={18}
+                className="transition group-hover:text-gray-600"
+              />
+            </UIButton>
+          )}
           <UIButton
             variant="icon"
             aria-label="Löschen"
@@ -83,9 +91,10 @@ export const ItemCard = ({
               e.stopPropagation();
               onDelete();
             }}
-            className="text-gray-400 hover:text-red-600 transition"
+            className="group text-gray-400 hover:text-red-600 transition"
+            isLightBgHover
           >
-            <Trash2 size={18} />
+            <Trash2 size={18} className="transition group-hover:text-red-600" />
           </UIButton>
         </div>
       </div>

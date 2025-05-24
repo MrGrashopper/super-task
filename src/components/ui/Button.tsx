@@ -6,6 +6,7 @@ import { Tooltip } from "./Tooltip";
 export type UIButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "abort" | "icon" | "ghost";
   tooltip?: ReactNode;
+  isLightBgHover?: boolean;
 };
 
 export const UIButton = forwardRef<HTMLButtonElement, UIButtonProps>(
@@ -17,6 +18,7 @@ export const UIButton = forwardRef<HTMLButtonElement, UIButtonProps>(
       tooltip,
       type = "button",
       form,
+      isLightBgHover,
       ...props
     },
     ref
@@ -29,8 +31,10 @@ export const UIButton = forwardRef<HTMLButtonElement, UIButtonProps>(
         : variant === "abort"
         ? "text-gray-700 hover:text-red-700 rounded-full"
         : variant === "icon"
-        ? "text-gray-700 hover:bg-gray-200 rounded-full"
-        : "text-gray-700 hover:bg-gray-100 rounded-full";
+        ? `text-gray-400 ${
+            isLightBgHover ? " hover:bg-gray-100" : "hover:bg-gray-200"
+          } rounded-full`
+        : "text-gray-400 hover:bg-gray-100 rounded-full";
 
     const button = (
       <button

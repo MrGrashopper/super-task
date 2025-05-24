@@ -63,7 +63,10 @@ const ProjectPage = () => {
                 onClick={() => setIsEditing(true)}
                 tooltip="Projekt bearbeiten"
               >
-                <Edit2 size={22} className="text-gray-400" />
+                <Edit2
+                  size={22}
+                  className="transition text-gray-400 hover:text-gray-600"
+                />
               </UIButton>
             </div>
           </div>
