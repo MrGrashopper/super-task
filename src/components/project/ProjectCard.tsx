@@ -1,6 +1,6 @@
 "use client";
 import { ItemCard } from "@ui/ItemCard";
-import { useProjects } from "hooks/useProjects";
+import { useProjects } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Project } from "@lib/types";
 import { Folder, FolderTree } from "lucide-react";

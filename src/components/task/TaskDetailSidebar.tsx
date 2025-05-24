@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { useTaskDetail } from "hooks/useTaskDetail";
-import { useTasks } from "hooks/useTasks";
-import { useSubtasks } from "hooks/useSubtasks";
+import { useTaskDetail } from "@hooks/useTaskDetail";
+import { useTasks } from "@hooks";
+import { useSubtasks } from "@hooks";
 import { TaskDetailForm } from "./TaskDetailForm";
 import { SubtaskList } from "./SubtaskList";
 import { UIButton } from "@components/ui";

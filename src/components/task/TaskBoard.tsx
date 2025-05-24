@@ -15,13 +15,13 @@ import {
 import { arrayMove } from "@dnd-kit/sortable";
 import { StatusLabels } from "@lib/constants";
 import type { Status, Task } from "@lib/types";
-import { useTasks } from "hooks/useTasks";
+import { useTasks } from "@hooks";
 
-import { useTaskReorder } from "hooks/useTaskReorder";
+import { useTaskReorder } from "@hooks";
 import { TaskColumn } from "./TaskColumn";
 import { TaskCard } from "./TaskCard";
 import { TaskDetailSidebar } from "./TaskDetailSidebar";
-import { useTaskStatusUpdate } from "hooks/useTaskStatus";
+import { useTaskStatusUpdate } from "@hooks";
 
 export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const { data: tasks = [] } = useTasks(projectId);

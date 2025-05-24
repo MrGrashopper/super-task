@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { TaskBoard } from "@task";
-import { useProject } from "hooks/useProject";
-import { useTasks } from "hooks/useTasks";
+import { useProject } from "@hooks";
+import { useTasks } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import { Edit2, Lightbulb } from "lucide-react";
 import { FullPageLoader, UIButton } from "@components/ui";

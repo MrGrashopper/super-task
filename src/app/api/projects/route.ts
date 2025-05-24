@@ -11,6 +11,16 @@ export const GET = async () => {
 };
 
 export const POST = async (req: Request) => {
-  const body = await req.json();
-  return NextResponse.json(await prisma.project.create({ data: body }));
+  const { title, description, dueDate, status } = await req.json();
+
+  const project = await prisma.project.create({
+    data: {
+      title,
+      description,
+      status,
+      dueDate: new Date(dueDate),
+    },
+  });
+
+  return NextResponse.json(project);
 };

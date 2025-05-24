@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ItemCard } from "@ui/ItemCard";
-import { useTasks } from "hooks/useTasks";
+import { useTasks } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
 import { FolderTree } from "lucide-react";

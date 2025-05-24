@@ -6,7 +6,7 @@ import { EmptyState } from "@components/ui";
 import { Dashboard } from "@components/project/Dashboard";
 import { Modal } from "@components/ui";
 import { ProjectForm } from "@components/project/ProjectForm";
-import { useProjects } from "hooks/useProjects";
+import { useProjects } from "@hooks";
 import { FullPageLoader } from "@components/ui";
 
 const Page = () => {

@@ -33,7 +33,13 @@
       "@ui":           ["components/ui/index"],
 
       "@lib/*":        ["lib/*"],
-      "@types/*":      ["types/*"]
+      "@types/*":      ["types/*"],
+
+      "@hooks/*":      ["hooks/*"],
+      "@hooks":        ["hooks/index"],
+
+      "@constants/*":  ["constants/*"],
+      "@constants":    ["constants/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,5 +1,5 @@
 "use client";
-import { useProjects } from "hooks/useProjects";
+import { useProjects } from "@hooks";
 import { EntityForm } from "@components/EntityForm";
 import type { FormData, Status } from "@lib/types";
 
