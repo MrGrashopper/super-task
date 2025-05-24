@@ -36,7 +36,7 @@ export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
           setEditing(false);
         }}
         onCancel={() => setEditing(false)}
-        submitLabel="Änderung speichern"
+        submitLabel="Hinzufügen"
       />
     );
   }

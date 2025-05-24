@@ -4,9 +4,9 @@ import type { Status } from "@prisma/client";
 
 export async function GET(
   request: Request,
-  { params }: { params: { taskId: string } }
+  context: { params: Promise<{ taskId: string }> }
 ) {
-  const { taskId } = await params;
+  const { taskId } = await context.params;
   const subs = await prisma.subtask.findMany({
     where: { taskId },
     orderBy: { createdAt: "asc" },
@@ -22,9 +22,9 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { taskId: string } }
+  context: { params: Promise<{ taskId: string }> }
 ) {
-  const { taskId } = await params;
+  const { taskId } = await context.params;
   const body = (await request.json()) as {
     title: string;
     description?: string;

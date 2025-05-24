@@ -12,22 +12,18 @@ const TaskUpdateSchema = z.object({
     .optional()
     .transform((s) => (s ? new Date(s) : undefined)),
 });
-type TaskUpdateInput = z.infer<typeof TaskUpdateSchema>;
 
 export async function GET(
   request: Request,
-  { params }: { params: { taskId: string } }
+  context: { params: Promise<{ taskId: string }> }
 ) {
-  const { taskId } = params;
+  const { taskId } = await context.params;
   const task = await prisma.task.findUnique({
     where: { id: taskId },
     include: { subtasks: true },
   });
   if (!task) {
-    return NextResponse.json(
-      { message: "Task nicht gefunden" },
-      { status: 404 }
-    );
+    return NextResponse.json({ message: "Task not found" }, { status: 404 });
   }
   return NextResponse.json({
     ...task,
@@ -45,23 +41,17 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { taskId: string } }
+  context: { params: Promise<{ taskId: string }> }
 ) {
-  const { taskId } = params;
+  const { taskId } = await context.params;
   const body = await request.json();
-
   const parsed = TaskUpdateSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json(
-      { errors: parsed.error.format() },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: parsed.error.format() }, { status: 400 });
   }
-  const data: TaskUpdateInput = parsed.data;
-
   const updated = await prisma.task.update({
     where: { id: taskId },
-    data,
+    data: parsed.data,
   });
   return NextResponse.json({
     ...updated,
@@ -76,6 +66,5 @@ export async function DELETE(
   const { taskId } = await context.params;
   await prisma.subtask.deleteMany({ where: { taskId } });
   await prisma.task.delete({ where: { id: taskId } });
-
   return NextResponse.json({ success: true });
 }
