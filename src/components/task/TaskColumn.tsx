@@ -109,7 +109,11 @@ export const TaskColumn = ({
                     onClick={() => onTaskClick(item.id)}
                     className="cursor-pointer"
                   >
-                    <TaskCard task={item} projectId={projectId} />
+                    <TaskCard
+                      task={item}
+                      projectId={projectId}
+                      onEdit={() => onTaskClick(item.id)}
+                    />
                   </div>
                 </SortableTask>
               )

@@ -59,9 +59,9 @@ export const ItemCard = ({
   return (
     <div className="p-2 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-4">
-        <span className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500">
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
-        </span>
+        </div>
         <div className="flex">
           {editable && (
             <UIButton
