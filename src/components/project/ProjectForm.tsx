@@ -1,27 +1,50 @@
+// components/project/ProjectForm.tsx
 "use client";
-import { useProjects } from "@hooks";
-import { EntityForm } from "@components/EntityForm";
-import type { FormData, Status } from "@lib/types";
 
-export const ProjectForm = ({ onClose }: { onClose: () => void }) => {
+import React from "react";
+import { EntityForm } from "@components/EntityForm";
+import { useProjects } from "@hooks";
+import type { FormData } from "@lib/types";
+
+type Props = {
+  onClose: () => void;
+  initialValues?: FormData;
+  onSubmit?: (vals: FormData) => void;
+};
+
+export const ProjectForm = ({ onClose, initialValues, onSubmit }: Props) => {
   const { add } = useProjects();
-  const defaultValues = {
-    title: "",
-    description: "",
-    dueDate: new Date().toISOString().split("T")[0],
-    status: "Open" as Status,
-  };
-  const handleSave = (v: FormData) =>
-    add.mutate(
-      { ...v, dueDate: new Date(v.dueDate).toISOString(), tasks: [] },
-      { onSuccess: onClose }
-    );
+
+  const handleSave = onSubmit
+    ? onSubmit
+    : (vals: FormData) =>
+        add.mutate(
+          {
+            ...vals,
+            dueDate: new Date(vals.dueDate).toISOString(),
+            tasks: [],
+          },
+          { onSuccess: onClose }
+        );
 
   return (
     <EntityForm
-      headline="Neues Projekt"
-      defaultValues={defaultValues}
-      onSubmit={handleSave}
+      headline={initialValues ? "Projekt bearbeiten" : "Neues Projekt"}
+      defaultValues={
+        initialValues ?? {
+          title: "",
+          description: "",
+          dueDate: new Date().toISOString().slice(0, 10),
+          status: "Open",
+        }
+      }
+      onSubmit={(vals) => {
+        const payload: FormData = {
+          ...vals,
+          dueDate: new Date(vals.dueDate).toISOString(),
+        };
+        handleSave(payload);
+      }}
       onClose={onClose}
     />
   );

@@ -1,41 +1,66 @@
 "use client";
 
 import React, { useState } from "react";
-import { ErrorState } from "@components/ui";
-import { EmptyState } from "@components/ui";
-import { Dashboard } from "@components/project/Dashboard";
-import { Modal } from "@components/ui";
-import { ProjectForm } from "@components/project/ProjectForm";
 import { useProjects } from "@hooks";
-import { FullPageLoader } from "@components/ui";
+import { FullPageLoader, ErrorState, Modal } from "@components/ui";
+import { Dashboard } from "@components/project/Dashboard";
+import { ProjectForm } from "@components/project/ProjectForm";
+import type { Project, FormData } from "@lib/types";
 
 const Page = () => {
-  const { data: projects = [], isLoading, isError } = useProjects();
-  const [open, setOpen] = useState(false);
-  const openForm = () => setOpen(true);
-  const closeForm = () => setOpen(false);
+  const {
+    data: projects = [],
+    isLoading,
+    isError,
+    update: updateProject,
+  } = useProjects();
+
+  const [creating, setCreating] = useState(false);
+  const [editing, setEditing] = useState<Project | null>(null);
 
   if (isLoading) return <FullPageLoader />;
   if (isError) return <ErrorState text="Fehler beim Laden der Projekte." />;
 
+  const openNew = () => setCreating(true);
+  const closeNew = () => setCreating(false);
+
+  const openEdit = (proj: Project) => setEditing(proj);
+  const closeEdit = () => setEditing(null);
+
+  const handleUpdate = (vals: FormData) => {
+    if (!editing) return;
+    updateProject.mutate(
+      {
+        id: editing.id,
+        data: { ...vals, dueDate: new Date(vals.dueDate).toISOString() },
+      },
+      { onSuccess: closeEdit }
+    );
+  };
+
   return (
     <>
-      <Modal open={open} onClose={closeForm}>
-        <ProjectForm onClose={closeForm} />
+      <Modal open={creating} onClose={closeNew}>
+        <ProjectForm onClose={closeNew} />
       </Modal>
 
-      {projects.length === 0 ? (
-        <EmptyState
-          title="Jetzt loslegen"
-          description="Lege dein erstes Projekt an, um loszulegen und deine Aufgaben zu organisieren."
-          buttonLabel="Neues Projekt anlegen"
-          onButtonClick={openForm}
-        />
-      ) : (
-        <Dashboard projects={projects} onAddClick={openForm} />
-      )}
+      <Modal open={!!editing} onClose={closeEdit}>
+        {editing && (
+          <ProjectForm
+            onClose={closeEdit}
+            initialValues={{
+              title: editing.title,
+              description: editing.description,
+              dueDate: editing.dueDate.slice(0, 10),
+              status: editing.status,
+            }}
+            onSubmit={handleUpdate}
+          />
+        )}
+      </Modal>
+
+      <Dashboard projects={projects} onAdd={openNew} onEdit={openEdit} />
     </>
   );
 };
-
 export default Page;

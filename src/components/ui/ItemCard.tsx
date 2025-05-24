@@ -1,16 +1,17 @@
 "use client";
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 
 type Props = {
   title: string;
   description?: string;
   dueDate: string;
   statusBadge: ReactNode;
-  onDelete: () => void;
   href?: string;
   children?: ReactNode;
+  onDelete: () => void;
+  onEdit?: () => void;
 };
 
 export const ItemCard = ({
@@ -18,9 +19,10 @@ export const ItemCard = ({
   description,
   dueDate,
   statusBadge,
-  onDelete,
   href,
   children,
+  onDelete,
+  onEdit,
 }: Props) => {
   const content = (
     <>
@@ -30,7 +32,7 @@ export const ItemCard = ({
       </div>
       {description && (
         <p
-          className="my-2 text-gray-600 truncate mr-14"
+          className="my-2 text-gray-600 truncate"
           style={{
             whiteSpace: "nowrap",
             overflow: "hidden",
@@ -53,17 +55,30 @@ export const ItemCard = ({
         <span className="text-sm text-gray-500">
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
         </span>
-        <button
-          onPointerDown={(e) => e.stopPropagation()}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete();
-          }}
-          className="text-gray-400 hover:text-red-600 transition"
-          aria-label="Löschen"
-        >
-          <Trash2 size={18} />
-        </button>
+        <div className="flex space-x-2">
+          <button
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit?.();
+            }}
+            className="cursor-pointer text-gray-400 hover:text-gray-600 transition"
+            aria-label="Bearbeiten"
+          >
+            <Edit2 size={18} onClick={onEdit} />
+          </button>
+          <button
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="cursor-pointer text-gray-400 hover:text-red-600 transition"
+            aria-label="Löschen"
+          >
+            <Trash2 size={18} onClick={onDelete} />
+          </button>
+        </div>
       </div>
 
       {href ? (
