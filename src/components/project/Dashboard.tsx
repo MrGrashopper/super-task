@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UIButton } from "../ui/Button";
+import { UIButton } from "@ui";
 import { PlusCircle } from "lucide-react";
 import { ProjectOverview } from "@project";
 import { Project } from "@lib/types";

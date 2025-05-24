@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ItemCard } from "@ui/ItemCard";
+import { ItemCard } from "@ui";
 import { useTasks } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { UIButton } from "@ui/Button";
+import { UIButton } from "@ui";
 import { StatusLabels } from "@lib/constants";
 import type { FormData } from "@lib/types";
 
@@ -82,7 +82,7 @@ export const EntityForm = ({
       </select>
       <div className="flex justify-end space-x-2">
         {onClose && (
-          <UIButton type="button" variant="secondary" onClick={onClose}>
+          <UIButton type="button" variant="abort" onClick={onClose}>
             Abbrechen
           </UIButton>
         )}

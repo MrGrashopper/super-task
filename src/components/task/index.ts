@@ -3,4 +3,8 @@ export * from "./TaskCard";
 export * from "./TaskColumn";
 export * from "./TaskForm";
 export * from "./SubtaskList";
-//TODO
+export * from "./SortableTask";
+export * from "./SubtaskForm";
+export * from "./SubtaskItem";
+export * from "./TaskDetailForm";
+export * from "./TaskDetailSidebar";

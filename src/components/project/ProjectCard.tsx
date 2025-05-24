@@ -1,5 +1,5 @@
 "use client";
-import { ItemCard } from "@ui/ItemCard";
+import { ItemCard } from "@ui";
 import { useProjects } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Project } from "@lib/types";
