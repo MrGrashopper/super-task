@@ -70,7 +70,11 @@ export const TaskColumn = ({
       <div ref={setNodeRef} className="flex flex-col min-w-[16rem] w-full">
         <div className="bg-white rounded-lg shadow-sm mb-4 p-2 flex justify-between items-center">
           <h4 className="font-medium ml-2">{label}</h4>
-          <UIButton onClick={() => setOpen(true)} variant="icon">
+          <UIButton
+            onClick={() => setOpen(true)}
+            variant="icon"
+            tooltip="Aufgabe hinzufügen"
+          >
             <Plus size={16} className="text-gray-500" />
           </UIButton>
         </div>

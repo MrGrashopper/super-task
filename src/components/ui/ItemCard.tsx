@@ -2,6 +2,7 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import { Edit2, Trash2 } from "lucide-react";
+import { UIButton } from "./Button";
 
 type Props = {
   title: string;
@@ -24,21 +25,25 @@ export const ItemCard = ({
   onDelete,
   onEdit,
 }: Props) => {
+  const noWrapStyle = {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+
   const content = (
     <>
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-600">{title}</h2>
+        <h2
+          className="text-lg font-semibold text-gray-600 mr-2"
+          style={noWrapStyle}
+        >
+          {title}
+        </h2>
         <div>{statusBadge}</div>
       </div>
       {description && (
-        <p
-          className="my-2 text-gray-600 truncate"
-          style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
+        <p className="my-2 text-gray-600 truncate mr-12" style={noWrapStyle}>
           {description}
         </p>
       )}
@@ -55,29 +60,33 @@ export const ItemCard = ({
         <span className="text-sm text-gray-500">
           Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
         </span>
-        <div className="flex space-x-2">
-          <button
+        <div className="flex">
+          <UIButton
+            variant="icon"
+            aria-label="Bearbeiten"
+            tooltip="Bearbeiten"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
               onEdit?.();
             }}
-            className="cursor-pointer text-gray-400 hover:text-gray-600 transition"
-            aria-label="Bearbeiten"
+            className="text-gray-400 hover:text-gray-600 transition"
           >
-            <Edit2 size={18} onClick={onEdit} />
-          </button>
-          <button
+            <Edit2 size={18} />
+          </UIButton>
+          <UIButton
+            variant="icon"
+            aria-label="Löschen"
+            tooltip="Löschen"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
-            className="cursor-pointer text-gray-400 hover:text-red-600 transition"
-            aria-label="Löschen"
+            className="text-gray-400 hover:text-red-600 transition"
           >
-            <Trash2 size={18} onClick={onDelete} />
-          </button>
+            <Trash2 size={18} />
+          </UIButton>
         </div>
       </div>
 

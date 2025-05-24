@@ -5,6 +5,7 @@ import { Trash2, Edit2 } from "lucide-react";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Subtask } from "@lib/types";
 import { SubtaskForm } from "./SubtaskForm";
+import { UIButton } from "@components/ui";
 
 type Props = {
   subtask: Subtask;
@@ -59,19 +60,25 @@ export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-2">
-        <button onClick={() => setEditing(true)} aria-label="Bearbeiten">
-          <Edit2
-            size={16}
-            className="text-gray-400 hover:text-gray-600 transition"
-          />
-        </button>
-        <button onClick={handleDelete} aria-label="Löschen">
-          <Trash2
-            size={16}
-            className="text-gray-400 hover:text-red-600 transition"
-          />
-        </button>
+      <div className="flex justify-end">
+        <UIButton
+          variant="icon"
+          onClick={() => setEditing(true)}
+          aria-label="Bearbeiten"
+          tooltip="Bearbeiten"
+          className="text-gray-400 hover:text-gray-600 transition"
+        >
+          <Edit2 size={16} />
+        </UIButton>
+        <UIButton
+          variant="icon"
+          tooltip="Löschen"
+          onClick={handleDelete}
+          aria-label="Löschen"
+          className="text-gray-400 hover:text-red-600 transition"
+        >
+          <Trash2 size={16} />
+        </UIButton>
       </div>
     </div>
   );

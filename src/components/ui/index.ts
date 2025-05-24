@@ -5,3 +5,4 @@ export * from "./FullPageLoader";
 export * from "./Modal";
 export * from "./ItemCard";
 export * from "./Modal";
+export * from "./Tooltip";

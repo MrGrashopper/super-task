@@ -58,7 +58,11 @@ const ProjectPage = () => {
               >
                 {StatusLabels[project.status]}
               </div>
-              <UIButton variant="icon" onClick={() => setIsEditing(true)}>
+              <UIButton
+                variant="icon"
+                onClick={() => setIsEditing(true)}
+                tooltip="Projekt bearbeiten"
+              >
                 <Edit2 size={22} className="text-gray-400" />
               </UIButton>
             </div>

@@ -6,6 +6,7 @@ import { useProjects } from "@hooks";
 import { getStatusClass, StatusLabels } from "@lib/constants";
 import type { Project } from "@lib/types";
 import { Folder, FolderTree } from "lucide-react";
+import { Tooltip } from "@components/ui";
 
 type Props = {
   project: Project;
@@ -48,13 +49,19 @@ export const ProjectCard = ({ project, onEdit }: Props) => {
       >
         <div className="mt-4">
           <div className="flex items-center space-x-4 text-gray-600 justify-end">
-            <div className="flex items-center space-x-1">
-              <span>{tasksCount}</span>
-              <Folder size={16} />
+            <div className="relative inline-block group cursor-pointer">
+              <div className="flex items-center space-x-1">
+                <div>{tasksCount}</div>
+                <Folder size={16} />
+              </div>
+              <Tooltip>Aufgaben</Tooltip>
             </div>
-            <div className="flex items-center space-x-1">
-              <span>{subtasksCount}</span>
-              <FolderTree size={16} />
+            <div className="relative inline-block group cursor-pointer">
+              <div className="flex items-center space-x-1">
+                <div>{subtasksCount}</div>
+                <FolderTree size={16} />
+              </div>
+              <Tooltip>Teilaufgaben</Tooltip>
             </div>
           </div>
         </div>
