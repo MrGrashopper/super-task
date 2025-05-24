@@ -8,6 +8,7 @@ import { TaskDetailForm } from "./TaskDetailForm";
 import { SubtaskList } from "./SubtaskList";
 import { UIButton } from "@components/ui";
 import { FullPageLoader } from "@components/ui";
+import { X } from "lucide-react";
 
 type Props = {
   taskId: string;
@@ -40,13 +41,15 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
     >
       <header className="flex items-center justify-between p-4">
         <h2 className="text-xl font-semibold text-gray-800">{task.title}</h2>
-        <button
+        <UIButton
+          type="button"
+          variant="icon"
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-800 text-2xl leading-none"
           aria-label="Schließen"
+          className="text-gray-500 hover:text-gray-800 text-2xl leading-none"
         >
-          ×
-        </button>
+          <X size={24} />
+        </UIButton>
       </header>
 
       <div className="p-4 overflow-y-auto flex-1 space-mt-6">
