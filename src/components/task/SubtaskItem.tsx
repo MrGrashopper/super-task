@@ -56,7 +56,7 @@ export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
           <p className="text-sm text-gray-600">{subtask.description}</p>
         )}
         <div className="mt-1 text-xs text-gray-500 flex items-center justify-between">
-          <span>{new Date(subtask.dueDate).toLocaleDateString("de-DE")}</span>
+          <div>{new Date(subtask.dueDate).toLocaleDateString("de-DE")}</div>
         </div>
       </div>
 
