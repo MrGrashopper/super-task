@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import { useDroppable, useDndMonitor } from "@dnd-kit/core";
@@ -51,7 +52,7 @@ export const TaskColumn = ({
   });
 
   const list: (Task | "placeholder")[] =
-    tasks.length > 0 && draggingId && sourceStatus !== columnStatus
+    draggingId && sourceStatus !== columnStatus
       ? [...tasks, "placeholder"]
       : [...tasks];
 
@@ -86,7 +87,7 @@ export const TaskColumn = ({
             {tasks.length === 0 && (
               <div
                 className={`rounded-lg border-2 border-dashed min-h-[96px] flex items-center justify-center ${
-                  isOver || draggingId
+                  isOver
                     ? "border-blue-300 text-blue-400 bg-blue-50"
                     : "border-gray-300 text-gray-400"
                 }`}
@@ -96,12 +97,14 @@ export const TaskColumn = ({
             )}
             {list.map((item, i) =>
               item === "placeholder" ? (
-                <div
-                  key={`ph-${i}`}
-                  className="h-12 flex items-center justify-center rounded border-2 border-dashed border-blue-300 bg-blue-50"
-                >
-                  <Plus size={20} strokeWidth={2} className="text-blue-400" />
-                </div>
+                tasks.length > 0 && (
+                  <div
+                    key={`ph-${i}`}
+                    className="h-12 flex items-center justify-center rounded border-2 border-dashed border-blue-300 bg-blue-50"
+                  >
+                    <Plus size={20} strokeWidth={2} className="text-blue-400" />
+                  </div>
+                )
               ) : (
                 <SortableTask key={item.id} id={item.id} status={columnStatus}>
                   <div
