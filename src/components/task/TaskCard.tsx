@@ -27,7 +27,7 @@ export const TaskCard = ({ task, projectId, onEdit }: Props) => {
       description={task.description}
       dueDate={task.dueDate}
       editable
-      onEdit={onEdit}
+      onEdit={onEdit ? () => onEdit(task.id) : undefined}
       statusBadge={
         <StatusBadge
           status={task.status}

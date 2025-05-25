@@ -31,7 +31,7 @@ export const UIButton = forwardRef<HTMLButtonElement, UIButtonProps>(
         : variant === "abort"
         ? "text-gray-400 hover:text-red-700 rounded-full"
         : variant === "ghost"
-        ? "text-gray-400 hover:bg-gray-100 hover:text-gray-700 rounded-full"
+        ? "text-gray-400 hover:text-gray-700 rounded-full"
         : variant === "icon"
         ? `text-gray-400 ${
             isLightBgHover ? " hover:bg-gray-100" : "hover:bg-gray-200"
