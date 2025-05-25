@@ -1,18 +1,12 @@
 "use client";
 
-import { Suspense } from "react";
 import type { Project } from "@lib/types";
-import { FullPageLoader } from "@components/ui";
 import ProjectsClient from "./projectsClient";
 
-type Props = {
-  projects: Project[];
-};
+type Props = { projects: Project[] };
 
 const ProjectsClientWrapper = ({ projects }: Props) => (
-  <Suspense fallback={<FullPageLoader />}>
-    <ProjectsClient projects={projects} />
-  </Suspense>
+  <ProjectsClient projects={projects} />
 );
 
 export default ProjectsClientWrapper;
