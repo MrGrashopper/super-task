@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { EmptyState, UIButton } from "@components/ui";
 import { PlusCircle } from "lucide-react";
