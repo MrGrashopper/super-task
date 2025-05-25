@@ -57,6 +57,7 @@ const ProjectPage = () => {
                 onChange={(newStatus) =>
                   updateProject.mutate({ status: newStatus })
                 }
+                text="Projektstatus aktualisieren"
               />
               <UIButton
                 variant="icon"

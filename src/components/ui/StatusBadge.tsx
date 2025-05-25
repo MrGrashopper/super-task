@@ -12,6 +12,7 @@ type Props = {
   editable?: boolean;
   onChange?: (newStatus: Status) => void;
   className?: string;
+  text?: string;
 };
 
 export const StatusBadge: React.FC<Props> = ({
@@ -20,6 +21,7 @@ export const StatusBadge: React.FC<Props> = ({
   editable = false,
   onChange,
   className = "",
+  text = "Status ändern",
 }) => {
   const bgTextClasses = getStatusClass(status);
   const sizeClasses = {
@@ -47,7 +49,7 @@ export const StatusBadge: React.FC<Props> = ({
           size={16}
           className="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-current"
         />
-        <Tooltip>Status ändern</Tooltip>
+        <Tooltip>{text}</Tooltip>
       </div>
     );
   }

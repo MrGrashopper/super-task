@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { UIButton } from "@ui";
 import { StatusLabels } from "@lib/constants";
 import type { FormData } from "@lib/types";
+import { ChevronDown } from "lucide-react";
 
 type Props = {
   headline?: string;
@@ -70,16 +71,21 @@ export const EntityForm = ({
         {...register("dueDate", { required: true })}
         className="w-full border border-gray-300 rounded px-3 py-2"
       />
-      <select
-        {...register("status")}
-        className="w-full border border-gray-300 rounded px-3 py-2 text-gray-600"
-      >
-        {Object.entries(StatusLabels).map(([s, label]) => (
-          <option key={s} value={s}>
-            {label}
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          {...register("status")}
+          className="appearance-none w-full border border-gray-300 rounded px-3 py-2 pr-8 text-gray-600"
+        >
+          {Object.entries(StatusLabels).map(([s, label]) => (
+            <option key={s} value={s}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
+          <ChevronDown size={16} className="text-gray-500" />
+        </div>
+      </div>
       <div className="flex justify-end space-x-2">
         {onClose && (
           <UIButton type="button" variant="abort" onClick={onClose}>

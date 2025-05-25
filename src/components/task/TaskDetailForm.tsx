@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { StatusLabels } from "@lib/constants";
 import type { Task } from "@lib/types";
+import { ChevronDown } from "lucide-react";
 
 type Values = Pick<Task, "title" | "description" | "dueDate" | "status">;
 
@@ -49,19 +50,23 @@ export const TaskDetailForm = ({ formId, initial, onSubmit }: Props) => {
         </div>
         <div>
           <label className="block mb-1 font-medium">Status</label>
-          <select
-            {...register("status")}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-          >
-            {Object.entries(StatusLabels).map(([s, label]) => (
-              <option key={s} value={s}>
-                {label}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              {...register("status")}
+              className="appearance-none w-full border border-gray-300 rounded px-3 py-2 pr-8"
+            >
+              {Object.entries(StatusLabels).map(([s, label]) => (
+                <option key={s} value={s}>
+                  {label}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
+              <ChevronDown size={16} className="text-gray-500" />
+            </div>
+          </div>
         </div>
       </div>
-      {/* Hier kein Submit-Button mehr */}
     </form>
   );
 };
