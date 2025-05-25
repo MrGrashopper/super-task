@@ -7,9 +7,9 @@ import { Dashboard } from "@components/project/Dashboard";
 import { ProjectForm } from "@components/project/ProjectForm";
 import type { Project, FormData } from "@lib/types";
 
-interface Props {
+type Props = {
   projects: Project[];
-}
+};
 
 const ProjectsClient = ({ projects: initialProjects }: Props) => {
   const { data: projects = initialProjects, update: updateProject } =
