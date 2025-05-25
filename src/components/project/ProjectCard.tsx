@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { ItemCard } from "@ui/ItemCard";
 import { useProjects } from "@hooks";

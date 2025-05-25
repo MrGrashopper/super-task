@@ -1,4 +1,3 @@
-"use client";
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import { Edit2, Trash2 } from "lucide-react";

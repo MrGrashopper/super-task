@@ -1,12 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import type { Project } from "@lib/types";
 
-export const useProjects = () => {
+export const useProjects = ({
+  initialData,
+}: { initialData?: Project[] } = {}) => {
   const qc = useQueryClient();
 
-  const query = useQuery<Project[]>({
+  const query = useSuspenseQuery<Project[]>({
     queryKey: ["projects"],
     queryFn: () => fetch("/api/projects").then((r) => r.json()),
+    initialData,
   });
 
   const add = useMutation<Project, Error, Omit<Project, "id">>({

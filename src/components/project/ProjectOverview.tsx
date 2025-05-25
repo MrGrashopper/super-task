@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { ProjectCard } from "./ProjectCard";
 import type { Project } from "@lib/types";

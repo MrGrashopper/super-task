@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { UIButton } from "@components/ui";
 import { PlusCircle } from "lucide-react";
