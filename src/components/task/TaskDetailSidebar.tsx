@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useTaskDetail } from "@hooks/useTaskDetail";
 import { useTasks } from "@hooks";
 import { useSubtasks } from "@hooks";
@@ -16,6 +16,7 @@ type Props = {
 };
 
 export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
+  const [subtaskFormOpen, setSubtaskFormOpen] = useState(false);
   const { data: task, isLoading } = useTaskDetail(taskId);
   const { update: updateTask } = useTasks(task?.projectId ?? "");
   const {
@@ -78,16 +79,21 @@ export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
             onAdd={(v) => addSubtask.mutate(v)}
             onUpdate={(id, data) => updateSubtask.mutate({ id, data })}
             onDelete={(id) => removeSubtask.mutate(id)}
+            onFormToggle={setSubtaskFormOpen}
           />
         </section>
         <section className="mt-4">
           <div className="p-4 flex justify-end space-x-2">
-            <UIButton type="button" variant="abort" onClick={onClose}>
-              Abbrechen
-            </UIButton>
-            <UIButton type="submit" form={formId}>
-              Speichern
-            </UIButton>
+            {!subtaskFormOpen && (
+              <>
+                <UIButton type="button" variant="abort" onClick={onClose}>
+                  Abbrechen
+                </UIButton>
+                <UIButton type="submit" form={formId}>
+                  Speichern
+                </UIButton>
+              </>
+            )}
           </div>
         </section>
       </div>

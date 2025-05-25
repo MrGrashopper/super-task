@@ -22,8 +22,13 @@ export const SubtaskForm = ({
   onCancel,
   submitLabel = "Hinzufügen",
 }: Props) => {
-  const { register, handleSubmit } = useForm<Values>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<Values>({
     defaultValues: initial,
+    mode: "onChange",
   });
 
   return (
@@ -79,7 +84,7 @@ export const SubtaskForm = ({
             Abbrechen
           </UIButton>
         )}
-        <UIButton type="submit" variant="ghost">
+        <UIButton type="submit" variant="primary" disabled={!isValid}>
           {submitLabel}
         </UIButton>
       </div>

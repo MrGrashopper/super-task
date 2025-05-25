@@ -9,11 +9,25 @@ type Props = {
   onAdd: (v: Omit<Subtask, "id" | "taskId">) => void;
   onUpdate: (id: string, data: Partial<Subtask>) => void;
   onDelete: (id: string) => void;
+  onFormToggle?: (open: boolean) => void;
 };
 
-export const SubtaskList = ({ subtasks, onAdd, onUpdate, onDelete }: Props) => {
+export const SubtaskList = ({
+  subtasks,
+  onAdd,
+  onUpdate,
+  onDelete,
+  onFormToggle,
+}: Props) => {
   const [adding, setAdding] = useState(false);
-
+  const openForm = () => {
+    setAdding(true);
+    onFormToggle?.(true);
+  };
+  const closeForm = () => {
+    setAdding(false);
+    onFormToggle?.(false);
+  };
   return (
     <div className="space-y-4">
       {subtasks.map((s) => (
@@ -35,13 +49,13 @@ export const SubtaskList = ({ subtasks, onAdd, onUpdate, onDelete }: Props) => {
           }}
           onSubmit={(v) => {
             onAdd(v);
-            setAdding(false);
+            closeForm();
           }}
           onCancel={() => setAdding(false)}
         />
       ) : (
         <button
-          onClick={() => setAdding(true)}
+          onClick={openForm}
           className="cursor-pointer text-gray-400 hover:text-gray-800"
         >
           + Neue Teilaufgabe

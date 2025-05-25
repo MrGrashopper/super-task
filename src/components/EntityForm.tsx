@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useForm } from "react-hook-form";
 import { UIButton } from "@ui";
 import { StatusLabels } from "@lib/constants";
@@ -23,7 +24,14 @@ export const EntityForm = ({
   onDelete,
   inline = false,
 }: Props) => {
-  const { register, handleSubmit } = useForm<FormData>({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<FormData>({
+    defaultValues,
+    mode: "onChange",
+  });
 
   if (inline) {
     return (
@@ -45,7 +53,9 @@ export const EntityForm = ({
             🗑
           </button>
         )}
-        <UIButton type="submit">✔︎</UIButton>
+        <UIButton type="submit" disabled={!isValid}>
+          ✔︎
+        </UIButton>
       </form>
     );
   }
@@ -92,7 +102,9 @@ export const EntityForm = ({
             Abbrechen
           </UIButton>
         )}
-        <UIButton type="submit">Speichern</UIButton>
+        <UIButton type="submit" disabled={!isValid}>
+          Speichern
+        </UIButton>
       </div>
     </form>
   );
