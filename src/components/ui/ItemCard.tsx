@@ -53,7 +53,7 @@ export const ItemCard = ({
   );
 
   const containerClasses =
-    "block border border-gray-200 p-4 rounded-lg transition hover:border-gray-300";
+    "block border border-gray-200 p-4 rounded-lg transition hover:border-gray-300 min-h-34";
 
   return (
     <div className="p-2 bg-white rounded-lg shadow-sm">

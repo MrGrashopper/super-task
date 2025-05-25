@@ -19,10 +19,12 @@ const inter = Inter({
 });
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
-  <html lang="de" className={`${playfair.variable} ${inter.variable}`}>
-    <body className="font-body text-gray-800 min-h-screen">
+  <html lang="de" className={`${playfair.variable} ${inter.variable} h-full`}>
+    <body className="font-body text-gray-800 flex flex-col h-full">
       <NavBar />
-      <Providers>{children}</Providers>
+      <Providers>
+        <main className="flex-1 flex flex-col overflow-auto">{children}</main>
+      </Providers>
     </body>
   </html>
 );
