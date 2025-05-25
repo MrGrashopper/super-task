@@ -38,7 +38,7 @@ Data persists beyond browser sessions via SQLite (default).
 
 1. **Clone the repo**  
    ```bash
-   git clone
+   git clone https://github.com/MrGrashopper/super-task.git
    cd super-task
    ```
 
