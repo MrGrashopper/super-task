@@ -3,9 +3,9 @@ import { prisma } from "@lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { subtaskId: string } }
+  context: { params: Promise<{ subtaskId: string }> }
 ) {
-  const { subtaskId } = params;
+  const { subtaskId } = await context.params;
   const subtask = await prisma.subtask.findUnique({
     where: { id: subtaskId },
   });
@@ -20,9 +20,9 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { subtaskId: string } }
+  context: { params: Promise<{ subtaskId: string }> }
 ) {
-  const { subtaskId } = params;
+  const { subtaskId } = await context.params;
   const exists = await prisma.subtask.findUnique({
     where: { id: subtaskId },
   });
@@ -47,9 +47,9 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { subtaskId: string } }
+  context: { params: Promise<{ subtaskId: string }> }
 ) {
-  const { subtaskId } = await params;
+  const { subtaskId } = await context.params;
   await prisma.subtask.delete({
     where: { id: subtaskId },
   });
