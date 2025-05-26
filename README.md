@@ -15,6 +15,8 @@
 A lightweight single-page app for creating and managing projects, tasks and subtasks.  
 Data persists beyond browser sessions via SQLite (default).
 
+![Super-Task Logo](public/superTask.png)
+
 ---
 
 ## 🔥 Features
