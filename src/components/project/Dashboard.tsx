@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { EmptyState, UIButton } from "@components/ui";
-import { PlusCircle } from "lucide-react";
+import { Lightbulb, PlusCircle } from "lucide-react";
 import { ProjectOverview } from "./ProjectOverview";
 import type { Project } from "@lib/types";
 
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
-  <main className="flex-1 flex flex-col container mx-auto px-6 py-6">
+  <main className="flex-1 flex flex-col container mx-auto px-6 pt-6 pb-2">
     {projects.length > 0 ? (
       <>
         <div className="flex justify-between items-center mb-12">
@@ -33,6 +33,12 @@ export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
           </div>
         </div>
         <ProjectOverview projects={projects} onEdit={onEdit} />
+        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
+          <Lightbulb size={22} className="text-yellow-400" />
+          <p className="text-sm text-gray-600 text-center">
+            Klicke auf ein Projektum das Aufgaben-Board zu öffnen.
+          </p>
+        </div>
       </>
     ) : (
       <div className="flex-1 flex items-center justify-center">

@@ -1,7 +1,7 @@
 import { Status } from "@prisma/client";
 import { z } from "zod";
 
-export const SubtaskDto = z.object({
+const SubtaskDto = z.object({
   id: z.string(),
   title: z.string(),
   description: z
@@ -12,7 +12,7 @@ export const SubtaskDto = z.object({
   status: z.nativeEnum(Status),
 });
 
-export const TaskDto = z.object({
+const TaskDto = z.object({
   id: z.string(),
   title: z.string(),
   description: z

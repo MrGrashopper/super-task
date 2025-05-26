@@ -78,12 +78,12 @@ const ProjectPage = () => {
 
         <TaskBoard projectId={id} />
 
-        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
+        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2 pb-2">
           <Lightbulb size={22} className="text-yellow-400" />
           <p className="text-sm text-gray-600 text-center">
             {emptyBoard
               ? 'Klicke auf "+" Symbol um eine neue Aufgabe hinzuzufügen.'
-              : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern"}
+              : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern."}
           </p>
         </div>
       </main>

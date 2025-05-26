@@ -1,6 +1,5 @@
+import { Status } from "@prisma/client";
 import { z } from "zod";
-
-export const StatusEnum = z.enum(["Open", "InProgress", "Done"]);
 
 export const ProjectUpdateSchema = z.object({
   title: z.string().min(1).optional(),
@@ -9,14 +8,14 @@ export const ProjectUpdateSchema = z.object({
     .string()
     .refine((s) => !s || !isNaN(Date.parse(s)))
     .optional(),
-  status: StatusEnum.optional(),
+  status: z.nativeEnum(Status).optional(),
 });
 
 export const TaskUpdateSchema = z
   .object({
     title: z.string().optional(),
     description: z.string().optional(),
-    status: StatusEnum.optional(),
+    status: z.nativeEnum(Status).optional(),
     dueDate: z
       .string()
       .optional()
@@ -25,6 +24,5 @@ export const TaskUpdateSchema = z
   })
   .strict();
 
-export type Status = z.infer<typeof StatusEnum>;
 export type ProjectPatch = z.infer<typeof ProjectUpdateSchema>;
 export type TaskPatch = z.infer<typeof TaskUpdateSchema>;
