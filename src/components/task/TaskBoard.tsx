@@ -134,7 +134,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="container mx-auto py-4">
+      <div className="container mx-auto py-4 mt-6">
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {statuses.map((status) => (
             <TaskColumn

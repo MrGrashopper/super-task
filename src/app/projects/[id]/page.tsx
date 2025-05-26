@@ -43,7 +43,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      <main className="px-6 pt-6 pb-4 flex flex-col min-h-[calc(100vh-theme(spacing.16))] space-y-6">
+      <main className="px-6 pt-6 pb-4 flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
         <div className="container mx-auto">
           <div className="flex items-center">
             <h2 className="font-main text-2xl text-gray-600 mr-2">
