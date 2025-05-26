@@ -41,7 +41,7 @@ export const TaskCard = ({ task, projectId, onEdit }: Props) => {
         <div className="relative inline-flex items-center space-x-1 group cursor-pointer">
           <div>{task.subtasks.length}</div>
           <FolderTree size={16} />
-          <Tooltip>Teilaufgaben</Tooltip>
+          <Tooltip>Unteraufgaben</Tooltip>
         </div>
       </div>
     </ItemCard>

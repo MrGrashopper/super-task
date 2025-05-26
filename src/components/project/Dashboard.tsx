@@ -37,8 +37,8 @@ export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
     ) : (
       <div className="flex-1 flex items-center justify-center">
         <EmptyState
-          title="Du hast noch kein Projekt angelegt"
-          description="Klicke hier, um ein neues Projekt zu erstellen."
+          title="Starte dein erstes Projekt!"
+          description="Leg noch heute los und behalte alle Aufgaben im Blick."
           buttonLabel="Neues Projekt anlegen"
           onButtonClick={onAdd}
         />

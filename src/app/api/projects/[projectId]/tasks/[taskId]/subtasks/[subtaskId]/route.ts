@@ -28,7 +28,7 @@ export async function PATCH(
   });
   if (!exists) {
     return NextResponse.json(
-      { error: "Subtask nicht gefunden" },
+      { error: "Unteraufgabe nicht gefunden" },
       { status: 404 }
     );
   }

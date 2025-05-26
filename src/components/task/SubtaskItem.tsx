@@ -68,7 +68,13 @@ export const SubtaskItem = ({
           <p className="text-sm text-gray-600">{subtask.description}</p>
         )}
         <div className="mt-1 text-xs text-gray-500 flex items-center justify-between">
-          <div>{new Date(subtask.dueDate).toLocaleDateString("de-DE")}</div>
+          <div>
+            {new Date(subtask.dueDate).toLocaleDateString("de-DE", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
+          </div>
         </div>
       </div>
 

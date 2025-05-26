@@ -39,11 +39,13 @@ export const EntityForm = ({
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center space-x-2"
       >
-        <input
-          {...register("title", { required: true })}
-          className="flex-1 border rounded px-2 py-1"
-          placeholder="Titel"
-        />
+        <label className="sr-only">
+          Titel
+          <input
+            {...register("title", { required: true })}
+            className="flex-1 border rounded px-2 py-1"
+          />
+        </label>
         {onDelete && (
           <button
             type="button"
@@ -65,37 +67,54 @@ export const EntityForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className="bg-white w-[90vw] max-w-[800px] p-6 rounded-lg shadow-lg space-y-4"
     >
-      <h2 className="text-2xl font-bold text-gray-600">{headline}</h2>
-      <input
-        {...register("title", { required: true })}
-        className="w-full border border-gray-300 rounded px-3 py-2"
-        placeholder="Titel"
-      />
-      <textarea
-        {...register("description")}
-        className="w-full border border-gray-300 rounded px-3 py-2"
-        placeholder="Beschreibung"
-      />
-      <input
-        type="date"
-        {...register("dueDate", { required: true })}
-        className="w-full border border-gray-300 rounded px-3 py-2"
-      />
-      <div className="relative">
-        <select
-          {...register("status")}
-          className="appearance-none w-full border border-gray-300 rounded px-3 py-2 pr-8 text-gray-600"
-        >
-          {Object.entries(StatusLabels).map(([s, label]) => (
-            <option key={s} value={s}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-          <ChevronDown size={16} className="text-gray-500" />
+      {headline && (
+        <h2 className="text-2xl font-bold text-gray-600">{headline}</h2>
+      )}
+
+      <label className="block">
+        <span className="font-medium text-gray-700">Titel</span>
+        <input
+          {...register("title", { required: true })}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        />
+      </label>
+
+      <label className="block">
+        <span className="font-medium text-gray-700">Beschreibung</span>
+        <textarea
+          {...register("description")}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        />
+      </label>
+
+      <label className="block">
+        <span className="font-medium text-gray-700">Fälligkeitsdatum</span>
+        <input
+          type="date"
+          {...register("dueDate", { required: true })}
+          className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+        />
+      </label>
+
+      <label className="block">
+        <span className="font-medium text-gray-700">Status</span>
+        <div className="relative mt-1">
+          <select
+            {...register("status")}
+            className="appearance-none w-full border border-gray-300 rounded px-3 py-2 pr-8"
+          >
+            {Object.entries(StatusLabels).map(([s, label]) => (
+              <option key={s} value={s}>
+                {label}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
+            <ChevronDown size={16} className="text-gray-500" />
+          </div>
         </div>
-      </div>
+      </label>
+
       <div className="flex justify-end space-x-2">
         {onClose && (
           <UIButton type="button" variant="abort" onClick={onClose}>

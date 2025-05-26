@@ -12,7 +12,10 @@ export async function GET(
     include: { subtasks: true },
   });
   if (!task) {
-    return NextResponse.json({ message: "Task not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Aufgabe nicht gefunden" },
+      { status: 404 }
+    );
   }
   return NextResponse.json({
     ...task,

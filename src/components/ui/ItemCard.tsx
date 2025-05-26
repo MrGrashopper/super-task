@@ -43,23 +43,33 @@ export const ItemCard = ({
         </h2>
         <div>{statusBadge}</div>
       </div>
-      {description && (
-        <p className="my-2 text-gray-600 truncate mr-12" style={noWrapStyle}>
-          {description}
-        </p>
-      )}
+
+      <p
+        className={`my-2 ${
+          description ? "text-gray-600" : "text-gray-400"
+        } truncate mr-12`}
+        style={noWrapStyle}
+      >
+        {description || "..."}
+      </p>
+
       {children}
     </>
   );
 
   const containerClasses =
-    "block border border-gray-200 p-4 rounded-lg transition hover:border-gray-300 min-h-34";
+    "block border border-gray-200 p-4 rounded-lg transition hover:border-gray-300 hover:bg-gray-50 min-h-34";
 
   return (
     <div className="p-2 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div className="text-sm text-gray-500">
-          Fällig: {new Date(dueDate).toLocaleDateString("de-DE")}
+          Fälligkeitsdatum:{" "}
+          {new Date(dueDate).toLocaleDateString("de-DE", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
         </div>
         <div className="flex">
           {editable && (

@@ -23,7 +23,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
     <body className="font-body text-gray-800 flex flex-col h-full">
       <NavBar />
       <Providers>
-        <main className="flex-1 flex flex-col overflow-auto">{children}</main>
+        <main className="flex-1 flex flex-col overflow-auto pt-2">
+          {children}
+        </main>
       </Providers>
     </body>
   </html>

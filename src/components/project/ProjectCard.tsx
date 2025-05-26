@@ -51,7 +51,7 @@ export const ProjectCard = ({ project, onEdit }: Props) => {
                 <div>{subtasksCount}</div>
                 <FolderTree size={16} />
               </div>
-              <Tooltip>Teilaufgaben</Tooltip>
+              <Tooltip>Unteraufgaben</Tooltip>
             </div>
           </div>
         </div>

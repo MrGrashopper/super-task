@@ -8,7 +8,8 @@ export const useSubtasks = (projectId: string, taskId: string) => {
     queryKey: ["subtasks", projectId, taskId],
     queryFn: () =>
       fetch(`/api/projects/${projectId}/tasks/${taskId}/subtasks`).then((r) => {
-        if (!r.ok) throw new Error("Teilaufgaben nicht geladen");
+        if (!r.ok)
+          throw new Error("Unteraufgaben konnten nicht geladen werden");
         return r.json();
       }),
   });
