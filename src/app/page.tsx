@@ -1,8 +1,8 @@
 import { getProjects } from "@lib/projects";
-import ProjectsClientWrapper from "./projectClientWrapper";
+import ProjectsClient from "./projectsClient";
 
 const Page = async () => {
   const projects = await getProjects();
-  return <ProjectsClientWrapper projects={projects} />;
+  return <ProjectsClient projects={projects} />;
 };
 export default Page;
