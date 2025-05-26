@@ -54,7 +54,7 @@ export const SubtaskItem = ({
 
   return (
     <div className="bg-gray-50 p-3 rounded flex justify-between items-start">
-      <div>
+      <div className="flex-1 min-w-0">
         <StatusBadge
           status={subtask.status}
           variant="small"
@@ -63,9 +63,11 @@ export const SubtaskItem = ({
           className="mb-2"
           text="Unteraufgaben Status aktualisieren"
         />
-        <h4>{subtask.title}</h4>
+        <h4 className="font-semibold text-base truncate">{subtask.title}</h4>
         {subtask.description && (
-          <p className="text-sm text-gray-600">{subtask.description}</p>
+          <p className="text-sm text-gray-600 break-words">
+            {subtask.description}
+          </p>
         )}
         <div className="mt-1 text-xs text-gray-500 flex items-center justify-between">
           <div>
@@ -77,7 +79,6 @@ export const SubtaskItem = ({
           </div>
         </div>
       </div>
-
       <div className="flex justify-end">
         <UIButton
           variant="icon"
@@ -90,9 +91,9 @@ export const SubtaskItem = ({
         </UIButton>
         <UIButton
           variant="icon"
-          tooltip="Löschen"
           onClick={handleDelete}
           aria-label="Löschen"
+          tooltip="Löschen"
           className="text-gray-400 hover:text-red-600 transition"
         >
           <Trash2 size={16} />
