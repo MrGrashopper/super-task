@@ -8,7 +8,7 @@ export const useTasks = (projectId: string) => {
     queryKey: ["projects", projectId, "tasks"],
     queryFn: () =>
       fetch(`/api/projects/${projectId}/tasks`).then((r) => {
-        if (!r.ok) throw new Error("Tasks konnten nicht geladen werden");
+        if (!r.ok) throw new Error("Aufgaben konnten nicht geladen werden");
         return r.json();
       }),
   });
@@ -24,7 +24,7 @@ export const useTasks = (projectId: string) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTask),
       }).then((r) => {
-        if (!r.ok) throw new Error("Task konnte nicht angelegt werden");
+        if (!r.ok) throw new Error("Aufgabe konnte nicht angelegt werden");
         return r.json();
       }),
     onSuccess: () =>
@@ -43,7 +43,7 @@ export const useTasks = (projectId: string) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }).then((r) => {
-        if (!r.ok) throw new Error("Task-Update fehlgeschlagen");
+        if (!r.ok) throw new Error("Update fehlgeschlagen");
         return r.json();
       }),
     onMutate: async ({ id, data }) => {
@@ -92,7 +92,7 @@ export const useTasks = (projectId: string) => {
       fetch(`/api/projects/${projectId}/tasks/${id}`, {
         method: "DELETE",
       }).then((r) => {
-        if (!r.ok) throw new Error("Task-Löschung fehlgeschlagen");
+        if (!r.ok) throw new Error("Aufgaben-Löschung fehlgeschlagen");
       }),
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks"] }),

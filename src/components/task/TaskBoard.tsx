@@ -56,6 +56,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       }
       return tasks;
     });
+    setLocalTasks(tasks);
   }, [
     tasks,
     activeId,

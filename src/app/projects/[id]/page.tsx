@@ -82,7 +82,7 @@ const ProjectPage = () => {
           <Lightbulb size={22} className="text-yellow-400" />
           <p className="text-sm text-gray-600 text-center">
             {emptyBoard
-              ? 'Klicke auf das "+" Symbol, um eine neue Aufgabe hinzuzufügen.'
+              ? 'Klicke auf das "+" Symbol, um eine neue Aufgabe anzulegen.'
               : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern."}
           </p>
         </div>

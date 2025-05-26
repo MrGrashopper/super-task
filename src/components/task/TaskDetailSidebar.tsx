@@ -19,7 +19,7 @@ type Props = {
 export const TaskDetailSidebar = ({ projectId, taskId, onClose }: Props) => {
   const [subtaskFormOpen, setSubtaskFormOpen] = useState(false);
   const { data: task, isLoading } = useTaskDetail(projectId, taskId);
-  const { update: updateTask } = useTasks(task?.projectId ?? "");
+  const { update: updateTask } = useTasks(projectId);
   const {
     data: subtasks = [],
     add: addSubtask,
