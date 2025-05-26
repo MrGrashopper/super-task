@@ -18,14 +18,17 @@ const inter = Inter({
   variable: "--font-body",
 });
 
+export const metadata = {
+  title: "Super Task",
+  description: "Das Projektmanagement Tool für alle",
+};
+
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang="de" className={`${playfair.variable} ${inter.variable} h-full`}>
     <body className="font-body text-gray-800 flex flex-col h-full">
       <NavBar />
       <Providers>
-        <main className="flex-1 flex flex-col overflow-auto pt-2">
-          {children}
-        </main>
+        <main className="flex-1 flex flex-col overflow-auto">{children}</main>
       </Providers>
     </body>
   </html>

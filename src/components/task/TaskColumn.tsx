@@ -74,7 +74,7 @@ export const TaskColumn = ({
           <UIButton
             onClick={() => setOpen(true)}
             variant="icon"
-            tooltip="Aufgabe hinzufügen"
+            tooltip="Aufgabe anlegen"
           >
             <Plus size={16} className="text-gray-500" />
           </UIButton>

@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
-  <main className="flex-1 flex flex-col container mx-auto px-6 pt-6 pb-2">
+  <main className="flex-1 flex flex-col container mx-auto px-6 pt-6 pb-4">
     {projects.length > 0 ? (
       <>
         <div className="flex justify-between items-center mb-12">
@@ -36,7 +36,7 @@ export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
         <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
           <Lightbulb size={22} className="text-yellow-400" />
           <p className="text-sm text-gray-600 text-center">
-            Klicke auf ein Projektum das Aufgaben-Board zu öffnen.
+            Um das Aufgaben-Board zu öffnen, klicke auf ein Projekt.
           </p>
         </div>
       </>

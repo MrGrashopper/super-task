@@ -50,6 +50,7 @@ export const UIButton = forwardRef<HTMLButtonElement, UIButtonProps>(
         disabled={disabled}
         className={`${base} ${cursor} ${size} ${style} ${className}`}
         {...props}
+        aria-label={tooltip ? tooltip.toString() : children?.toString()}
       >
         {children}
       </button>

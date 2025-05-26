@@ -43,7 +43,7 @@ const ProjectPage = () => {
 
   return (
     <>
-      <main className="p-6 flex flex-col min-h-[calc(100vh-theme(spacing.16))] space-y-6">
+      <main className="px-6 pt-6 pb-4 flex flex-col min-h-[calc(100vh-theme(spacing.16))] space-y-6">
         <div className="container mx-auto">
           <div className="flex items-center">
             <h2 className="font-main text-2xl text-gray-600 mr-2">
@@ -78,11 +78,11 @@ const ProjectPage = () => {
 
         <TaskBoard projectId={id} />
 
-        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2 pb-2">
+        <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
           <Lightbulb size={22} className="text-yellow-400" />
           <p className="text-sm text-gray-600 text-center">
             {emptyBoard
-              ? 'Klicke auf "+" Symbol um eine neue Aufgabe hinzuzufügen.'
+              ? 'Klicke auf das "+" Symbol, um eine neue Aufgabe hinzuzufügen.'
               : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern."}
           </p>
         </div>
