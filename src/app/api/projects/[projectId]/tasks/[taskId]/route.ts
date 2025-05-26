@@ -1,17 +1,6 @@
 import { prisma } from "@lib/prisma";
+import { TaskUpdateSchema } from "@lib/schemas";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import { Status } from "@prisma/client";
-
-const TaskUpdateSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  status: z.nativeEnum(Status).optional(),
-  dueDate: z
-    .string()
-    .optional()
-    .transform((s) => (s ? new Date(s) : undefined)),
-});
 
 export async function GET(
   request: Request,

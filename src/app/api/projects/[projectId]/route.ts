@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@lib/prisma";
-import { z } from "zod";
-
-const ProjectPatchSchema = z.object({
-  title: z.string().min(1).optional(),
-  description: z.string().nullable().optional(),
-  dueDate: z
-    .string()
-    .refine((s) => !s || !isNaN(Date.parse(s)))
-    .optional(),
-  status: z.enum(["Open", "InProgress", "Done"]).optional(),
-});
+import { ProjectUpdateSchema } from "@lib/schemas";
 
 export async function GET(
   request: Request,
@@ -46,7 +36,7 @@ export async function PATCH(
   context: { params: Promise<{ projectId: string }> }
 ) {
   const { projectId: id } = await context.params;
-  const parsed = ProjectPatchSchema.parse(await request.json());
+  const parsed = ProjectUpdateSchema.parse(await request.json());
   const { title, description, status, dueDate } = parsed;
   const data = {
     ...(title !== undefined && { title }),

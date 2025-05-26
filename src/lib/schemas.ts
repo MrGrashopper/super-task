@@ -1,0 +1,30 @@
+import { z } from "zod";
+
+export const StatusEnum = z.enum(["Open", "InProgress", "Done"]);
+
+export const ProjectUpdateSchema = z.object({
+  title: z.string().min(1).optional(),
+  description: z.string().nullable().optional(),
+  dueDate: z
+    .string()
+    .refine((s) => !s || !isNaN(Date.parse(s)))
+    .optional(),
+  status: StatusEnum.optional(),
+});
+
+export const TaskUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    status: StatusEnum.optional(),
+    dueDate: z
+      .string()
+      .optional()
+      .refine((s) => !s || !isNaN(Date.parse(s)))
+      .transform((s) => (s ? new Date(s) : undefined)),
+  })
+  .strict();
+
+export type Status = z.infer<typeof StatusEnum>;
+export type ProjectPatch = z.infer<typeof ProjectUpdateSchema>;
+export type TaskPatch = z.infer<typeof TaskUpdateSchema>;
