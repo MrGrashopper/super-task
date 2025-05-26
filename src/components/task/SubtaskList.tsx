@@ -60,7 +60,7 @@ export const SubtaskList = ({
           onClick={openForm}
           className="cursor-pointer text-gray-400 hover:text-gray-800"
         >
-          + Neue Teilaufgabe
+          + Neue Unteraufgaben
         </button>
       )}
     </div>

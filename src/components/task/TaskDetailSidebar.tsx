@@ -73,7 +73,7 @@ export const TaskDetailSidebar = ({ projectId, taskId, onClose }: Props) => {
 
         <section className="bg-white border border-gray-200 p-4 mx-4 rounded-b-lg shadow-sm">
           <h3 className="text-lg font-medium text-gray-700 mb-4">
-            Teilaufgaben
+            Unteraufgaben
           </h3>
           <SubtaskList
             subtasks={subtasks}

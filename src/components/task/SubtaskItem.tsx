@@ -61,7 +61,7 @@ export const SubtaskItem = ({
           editable
           onChange={(status) => onUpdate(subtask.id, { status })}
           className="mb-2"
-          text="Teilaufgabe Status aktualisieren"
+          text="Unteraufgaben Status aktualisieren"
         />
         <h4>{subtask.title}</h4>
         {subtask.description && (
