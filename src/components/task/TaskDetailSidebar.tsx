@@ -41,8 +41,7 @@ export const TaskDetailSidebar = ({ projectId, taskId, onClose }: Props) => {
         w-full sm:w-4/5 xl:w-3/5 flex flex-col
       `}
     >
-      <header className="flex items-center justify-between p-4">
-        <h2 className="text-xl font-semibold text-gray-800">{task.title}</h2>
+      <header className="flex items-center justify-between pt-4 px-4 ml-auto">
         <UIButton
           type="button"
           variant="icon"

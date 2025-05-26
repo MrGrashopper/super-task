@@ -46,7 +46,7 @@ const ProjectPage = () => {
       <main className="px-6 pt-6 pb-4 flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
         <div className="container mx-auto">
           <div className="flex items-center">
-            <h2 className="font-main text-2xl text-gray-600 mr-2">
+            <h2 className="font-main text-2xl text-gray-600 mr-2 whitespace-normal break-words">
               {project.title}
             </h2>
             <div className="ml-auto flex items-center space-x-2">
@@ -71,7 +71,7 @@ const ProjectPage = () => {
               </UIButton>
             </div>
           </div>
-          <h3 className="text-xl text-gray-400 text-sm">
+          <h3 className="text-xl text-gray-400 text-sm whitespace-normal break-words">
             {project.description}
           </h3>
         </div>
@@ -83,7 +83,7 @@ const ProjectPage = () => {
           <p className="text-sm text-gray-600 text-center">
             {emptyBoard
               ? 'Klicke auf das "+" Symbol, um eine neue Aufgabe anzulegen.'
-              : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte um den Status zu ändern."}
+              : "Halte eine Karte gedrückt und ziehe sie in eine andere Spalte, um den Status zu ändern."}
           </p>
         </div>
       </main>
