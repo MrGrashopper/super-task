@@ -14,9 +14,9 @@ const ProjectPatchSchema = z.object({
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ projectId: string }> }
 ) {
-  const { id } = await context.params;
+  const { projectId: id } = await context.params;
   const project = await prisma.project.findUnique({
     where: { id },
     include: { tasks: { include: { subtasks: true } } },
@@ -43,9 +43,9 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ projectId: string }> }
 ) {
-  const { id } = await context.params;
+  const { projectId: id } = await context.params;
   const parsed = ProjectPatchSchema.parse(await request.json());
   const { title, description, status, dueDate } = parsed;
   const data = {
@@ -66,9 +66,9 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ projectId: string }> }
 ) {
-  const { id } = await context.params;
+  const { projectId: id } = await context.params;
   await prisma.project.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

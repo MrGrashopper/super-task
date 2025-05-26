@@ -4,12 +4,13 @@ import type { Task } from "@lib/types";
 export const useTasks = (projectId: string) => {
   const qc = useQueryClient();
 
-  const query = useQuery<Task[]>({
-    queryKey: ["tasks", projectId],
+  const query = useQuery<Task[], Error>({
+    queryKey: ["projects", projectId, "tasks"],
     queryFn: () =>
-      fetch(`/api/projects/${projectId}/tasks?sort=order`).then((r) =>
-        r.json()
-      ),
+      fetch(`/api/projects/${projectId}/tasks`).then((r) => {
+        if (!r.ok) throw new Error("Tasks konnten nicht geladen werden");
+        return r.json();
+      }),
   });
 
   const add = useMutation<
@@ -17,13 +18,17 @@ export const useTasks = (projectId: string) => {
     Error,
     Omit<Task, "id" | "subtasks" | "projectId">
   >({
-    mutationFn: (t) =>
+    mutationFn: (newTask) =>
       fetch(`/api/projects/${projectId}/tasks`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(t),
-      }).then((r) => r.json()),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks", projectId] }),
+        body: JSON.stringify(newTask),
+      }).then((r) => {
+        if (!r.ok) throw new Error("Task konnte nicht angelegt werden");
+        return r.json();
+      }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks"] }),
   });
 
   const update = useMutation<
@@ -33,46 +38,64 @@ export const useTasks = (projectId: string) => {
     { previousTasks?: Task[]; previousTask?: Task }
   >({
     mutationFn: ({ id, data }) =>
-      fetch(`/api/tasks/${id}`, {
+      fetch(`/api/projects/${projectId}/tasks/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      }).then((r) => r.json()),
+      }).then((r) => {
+        if (!r.ok) throw new Error("Task-Update fehlgeschlagen");
+        return r.json();
+      }),
     onMutate: async ({ id, data }) => {
-      await qc.cancelQueries({ queryKey: ["tasks", projectId] });
-      await qc.cancelQueries({ queryKey: ["task", id] });
-      const previousTasks = qc.getQueryData<Task[]>(["tasks", projectId]);
-      const previousTask = qc.getQueryData<Task>(["task", id]);
-      qc.setQueryData<Task[]>(
-        ["tasks", projectId],
-        (old) => old?.map((t) => (t.id === id ? { ...t, ...data } : t)) ?? []
+      await qc.cancelQueries({ queryKey: ["projects", projectId, "tasks"] });
+      await qc.cancelQueries({
+        queryKey: ["projects", projectId, "tasks", id],
+      });
+      const previousTasks = qc.getQueryData<Task[]>([
+        "projects",
+        projectId,
+        "tasks",
+      ]);
+      const previousTask = qc.getQueryData<Task>([
+        "projects",
+        projectId,
+        "tasks",
+        id,
+      ]);
+      qc.setQueryData<Task[]>(["projects", projectId, "tasks"], (old = []) =>
+        old.map((t) => (t.id === id ? { ...t, ...data } : t))
       );
-      qc.setQueryData<Task>(["task", id], (old) =>
+      qc.setQueryData<Task>(["projects", projectId, "tasks", id], (old) =>
         old ? { ...old, ...data } : old!
       );
       return { previousTasks, previousTask };
     },
-    onError: (_err, _vars, context) => {
-      if (context?.previousTasks) {
-        qc.setQueryData(["tasks", projectId], context.previousTasks);
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.previousTasks) {
+        qc.setQueryData(["projects", projectId, "tasks"], ctx.previousTasks);
       }
-      if (context?.previousTask) {
+      if (ctx?.previousTask) {
         qc.setQueryData(
-          ["task", context.previousTask.id],
-          context.previousTask
+          ["projects", projectId, "tasks", ctx.previousTask.id],
+          ctx.previousTask
         );
       }
     },
     onSettled: (_res, _err, { id }) => {
-      qc.invalidateQueries({ queryKey: ["tasks", projectId] });
-      qc.invalidateQueries({ queryKey: ["task", id] });
+      qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks"] });
+      qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks", id] });
     },
   });
 
   const remove = useMutation<void, Error, string>({
     mutationFn: (id) =>
-      fetch(`/api/tasks/${id}`, { method: "DELETE" }).then((r) => r.json()),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["tasks", projectId] }),
+      fetch(`/api/projects/${projectId}/tasks/${id}`, {
+        method: "DELETE",
+      }).then((r) => {
+        if (!r.ok) throw new Error("Task-Löschung fehlgeschlagen");
+      }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks"] }),
   });
 
   return { ...query, add, update, remove };

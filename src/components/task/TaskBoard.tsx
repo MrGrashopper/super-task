@@ -35,12 +35,13 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
 
   useEffect(() => {
     if (
-      !reorderMutation.isPending &&
-      !updateStatusMutation.isPending &&
-      activeId === null
+      activeId !== null ||
+      reorderMutation.isPending ||
+      updateStatusMutation.isPending
     ) {
-      setLocalTasks(tasks);
+      return;
     }
+    setLocalTasks(tasks);
   }, [
     tasks,
     activeId,
@@ -139,6 +140,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
           onClick={() => setSelectedId(null)}
         >
           <TaskDetailSidebar
+            projectId={projectId}
             taskId={selectedId}
             onClose={() => setSelectedId(null)}
           />

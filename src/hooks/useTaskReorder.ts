@@ -13,43 +13,47 @@ export const useTaskReorder = (projectId: string) => {
     { previous?: Task[] }
   >({
     mutationFn: ({ status, newOrder }) =>
-      fetch("/api/tasks/reorder", {
+      fetch(`/api/projects/${projectId}/tasks/reorder`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectId, status, newOrder }),
+        body: JSON.stringify({ status, newOrder }),
       }).then((r) => {
         if (!r.ok) throw new Error("Reorder failed");
       }),
 
     onMutate: async ({ status, newOrder }) => {
-      await qc.cancelQueries({ queryKey: ["tasks", projectId] });
-      const previous = qc.getQueryData<Task[]>(["tasks", projectId]) ?? [];
+      await qc.cancelQueries({ queryKey: ["projects", projectId, "tasks"] });
+      const previous =
+        qc.getQueryData<Task[]>(["projects", projectId, "tasks"]) ?? [];
 
-      qc.setQueryData<Task[]>(["tasks", projectId], (tasks = []) => {
-        const updated = tasks.map((t) => {
-          const match = newOrder.find((o) => o.id === t.id);
-          return match ? { ...t, order: match.order } : t;
-        });
+      qc.setQueryData<Task[]>(
+        ["projects", projectId, "tasks"],
+        (tasks = []) => {
+          const updated = tasks.map((t) => {
+            const match = newOrder.find((o) => o.id === t.id);
+            return match ? { ...t, order: match.order } : t;
+          });
 
-        return [
-          ...updated.filter((t) => t.status !== status),
-          ...updated
-            .filter((t) => t.status === status)
-            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
-        ];
-      });
+          return [
+            ...updated.filter((t) => t.status !== status),
+            ...updated
+              .filter((t) => t.status === status)
+              .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+          ];
+        }
+      );
 
       return { previous };
     },
 
     onError: (_e, _vars, ctx) => {
       if (ctx?.previous) {
-        qc.setQueryData(["tasks", projectId], ctx.previous);
+        qc.setQueryData(["projects", projectId, "tasks"], ctx.previous);
       }
     },
 
     onSettled: () => {
-      qc.invalidateQueries({ queryKey: ["tasks", projectId] });
+      qc.invalidateQueries({ queryKey: ["projects", projectId, "tasks"] });
     },
   });
 };

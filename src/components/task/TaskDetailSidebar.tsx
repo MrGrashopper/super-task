@@ -11,20 +11,21 @@ import { FullPageLoader } from "@components/ui";
 import { X } from "lucide-react";
 
 type Props = {
+  projectId: string;
   taskId: string;
   onClose: () => void;
 };
 
-export const TaskDetailSidebar = ({ taskId, onClose }: Props) => {
+export const TaskDetailSidebar = ({ projectId, taskId, onClose }: Props) => {
   const [subtaskFormOpen, setSubtaskFormOpen] = useState(false);
-  const { data: task, isLoading } = useTaskDetail(taskId);
+  const { data: task, isLoading } = useTaskDetail(projectId, taskId);
   const { update: updateTask } = useTasks(task?.projectId ?? "");
   const {
     data: subtasks = [],
     add: addSubtask,
     update: updateSubtask,
     remove: removeSubtask,
-  } = useSubtasks(taskId);
+  } = useSubtasks(projectId, taskId);
 
   const formId = `task-detail-form-${taskId}`;
 

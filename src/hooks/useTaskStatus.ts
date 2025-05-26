@@ -5,6 +5,7 @@ import type { Status, Task } from "@lib/types";
 
 export const useTaskStatusUpdate = (projectId: string) => {
   const qc = useQueryClient();
+  const tasksKey = ["projects", projectId, "tasks"] as const;
 
   return useMutation<
     void,
@@ -12,34 +13,34 @@ export const useTaskStatusUpdate = (projectId: string) => {
     { id: string; status: Status },
     { previous?: Task[] }
   >({
-    mutationFn: ({ id, status }) =>
-      fetch(`/api/tasks/${id}`, {
+    mutationFn: async ({ id, status }) => {
+      const res = await fetch(`/api/projects/${projectId}/tasks/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
-      }).then((r) => {
-        if (!r.ok) throw new Error("Status update failed");
-      }),
+      });
+      if (!res.ok) throw new Error("Status update failed");
+    },
 
     onMutate: async ({ id, status }) => {
-      await qc.cancelQueries({ queryKey: ["tasks", projectId] });
-      const previous = qc.getQueryData<Task[]>(["tasks", projectId]) ?? [];
+      await qc.cancelQueries({ queryKey: tasksKey });
+      const previous = qc.getQueryData<Task[]>(tasksKey) ?? [];
 
-      qc.setQueryData<Task[]>(["tasks", projectId], (tasks = []) =>
+      qc.setQueryData<Task[]>(tasksKey, (tasks = []) =>
         tasks.map((t) => (t.id === id ? { ...t, status } : t))
       );
 
       return { previous };
     },
 
-    onError: (_e, _vars, ctx) => {
+    onError: (_err, _vars, ctx) => {
       if (ctx?.previous) {
-        qc.setQueryData(["tasks", projectId], ctx.previous);
+        qc.setQueryData(tasksKey, ctx.previous);
       }
     },
 
     onSettled: () => {
-      qc.invalidateQueries({ queryKey: ["tasks", projectId] });
+      qc.invalidateQueries({ queryKey: tasksKey });
     },
   });
 };
