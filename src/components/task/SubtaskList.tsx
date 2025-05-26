@@ -9,7 +9,7 @@ type Props = {
   onAdd: (v: Omit<Subtask, "id" | "taskId">) => void;
   onUpdate: (id: string, data: Partial<Subtask>) => void;
   onDelete: (id: string) => void;
-  onFormToggle?: (open: boolean) => void;
+  onFormToggle: (open: boolean) => void;
 };
 
 export const SubtaskList = ({
@@ -28,6 +28,7 @@ export const SubtaskList = ({
     setAdding(false);
     onFormToggle?.(false);
   };
+
   return (
     <div className="space-y-4">
       {subtasks.map((s) => (
@@ -36,6 +37,7 @@ export const SubtaskList = ({
           subtask={s}
           onUpdate={onUpdate}
           onDelete={onDelete}
+          onFormToggle={onFormToggle}
         />
       ))}
 

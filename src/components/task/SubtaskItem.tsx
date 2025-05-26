@@ -10,10 +10,21 @@ type Props = {
   subtask: Subtask;
   onUpdate: (id: string, data: Partial<Subtask>) => void;
   onDelete: (id: string) => void;
+  onFormToggle: (open: boolean) => void;
 };
 
-export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
+export const SubtaskItem = ({
+  subtask,
+  onUpdate,
+  onDelete,
+  onFormToggle,
+}: Props) => {
   const [editing, setEditing] = useState(false);
+
+  const openEdit = () => {
+    setEditing(true);
+    onFormToggle(true);
+  };
 
   const handleDelete = () => {
     if (window.confirm(`Unteraufgabe „${subtask.title}“ wirklich löschen?`)) {
@@ -33,9 +44,10 @@ export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
         onSubmit={(vals) => {
           onUpdate(subtask.id, vals);
           setEditing(false);
+          onFormToggle(false);
         }}
         onCancel={() => setEditing(false)}
-        submitLabel="Hinzufügen"
+        submitLabel="Speichern"
       />
     );
   }
@@ -63,7 +75,7 @@ export const SubtaskItem = ({ subtask, onUpdate, onDelete }: Props) => {
       <div className="flex justify-end">
         <UIButton
           variant="icon"
-          onClick={() => setEditing(true)}
+          onClick={openEdit}
           aria-label="Bearbeiten"
           tooltip="Bearbeiten"
           className="text-gray-400 hover:text-gray-600 transition"
