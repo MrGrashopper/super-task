@@ -15,7 +15,7 @@ export const Dashboard = ({ projects, onAdd, onEdit }: Props) => (
   <main className="flex-1 flex flex-col container mx-auto px-6 pt-6 pb-4">
     {projects.length > 0 ? (
       <>
-        <div className="flex justify-between items-center mb-12">
+        <div className="flex justify-between items-center mb-12 mt-2">
           <h1 className="font-main text-2xl">Projektübersicht</h1>
           <div className="flex items-center space-x-2">
             <div className="hidden sm:block">

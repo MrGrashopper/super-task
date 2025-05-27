@@ -82,20 +82,18 @@ export const TaskDetailSidebar = ({ projectId, taskId, onClose }: Props) => {
             onFormToggle={setSubtaskFormOpen}
           />
         </section>
-        <section className="mt-4">
-          <div className="p-4 flex justify-end space-x-2">
-            {!subtaskFormOpen && (
-              <>
-                <UIButton type="button" variant="abort" onClick={onClose}>
-                  Abbrechen
-                </UIButton>
-                <UIButton type="submit" form={formId}>
-                  Speichern
-                </UIButton>
-              </>
-            )}
-          </div>
-        </section>
+      </div>
+      <div className="mt-auto p-4 flex justify-end space-x-2 bg-white">
+        {!subtaskFormOpen && (
+          <>
+            <UIButton type="button" variant="abort" onClick={onClose}>
+              Abbrechen
+            </UIButton>
+            <UIButton type="submit" form={formId}>
+              Speichern
+            </UIButton>
+          </>
+        )}
       </div>
     </aside>
   );
