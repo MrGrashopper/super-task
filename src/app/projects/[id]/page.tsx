@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { useParams } from "next/navigation";
-import { TaskBoard } from "@task";
 import { useProject } from "@hooks";
 import { useTasks } from "@hooks";
 import { Edit2, Lightbulb } from "lucide-react";
 import { FullPageLoader, StatusBadge, UIButton } from "@components/ui";
 import { EntityForm } from "@components/EntityForm";
 import type { FormData } from "@lib/types";
+
+const TaskBoard = lazy(() =>
+  import("@task/TaskBoard").then((mod) => ({ default: mod.TaskBoard }))
+);
 
 const ProjectPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,8 +26,9 @@ const ProjectPage = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   if (projectLoading) return <FullPageLoader />;
-  if (!id || isError || !project)
+  if (!id || isError || !project) {
     return <div className="p-4">Projekt nicht gefunden</div>;
+  }
 
   const defaultValues: FormData = {
     title: project.title,
@@ -34,9 +38,7 @@ const ProjectPage = () => {
   };
 
   const handleSave = (vals: FormData) => {
-    updateProject.mutate(vals, {
-      onSuccess: () => setIsEditing(false),
-    });
+    updateProject.mutate(vals, { onSuccess: () => setIsEditing(false) });
   };
 
   const emptyBoard = tasks.length === 0;
@@ -76,7 +78,9 @@ const ProjectPage = () => {
           </h3>
         </div>
 
-        <TaskBoard projectId={id} />
+        <Suspense fallback={<FullPageLoader />}>
+          <TaskBoard projectId={id} />
+        </Suspense>
 
         <div className="mt-auto container mx-auto flex justify-center items-center space-x-2">
           <Lightbulb size={22} className="text-yellow-400" />

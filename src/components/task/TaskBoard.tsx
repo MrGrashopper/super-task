@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   DndContext,
   DragStartEvent,
@@ -25,11 +25,11 @@ import { useTaskStatusUpdate } from "@hooks";
 
 export const TaskBoard = ({ projectId }: { projectId: string }) => {
   const { data: tasks = [] } = useTasks(projectId);
+  const [localTasks, setLocalTasks] = useState<Task[]>(tasks);
 
   const updateStatusMutation = useTaskStatusUpdate(projectId);
   const reorderMutation = useTaskReorder(projectId);
 
-  const [localTasks, setLocalTasks] = useState<Task[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -56,7 +56,6 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
       }
       return tasks;
     });
-    setLocalTasks(tasks);
   }, [
     tasks,
     activeId,
@@ -125,7 +124,19 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
   };
 
   const activeTask = localTasks.find((t) => t.id === activeId);
-  const statuses = Object.keys(StatusLabels) as Status[];
+  const statuses = useMemo(() => Object.keys(StatusLabels) as Status[], []);
+
+  const tasksByStatus = useMemo(() => {
+    const groups: Record<Status, Task[]> = {
+      Open: [],
+      InProgress: [],
+      Done: [],
+    };
+    localTasks.forEach((t) => {
+      groups[t.status].push(t);
+    });
+    return groups;
+  }, [localTasks]);
 
   return (
     <DndContext
@@ -142,7 +153,7 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
               projectId={projectId}
               columnStatus={status}
               label={StatusLabels[status]}
-              tasks={localTasks.filter((t) => t.status === status)}
+              tasks={tasksByStatus[status]}
               onTaskClick={setSelectedId}
             />
           ))}
