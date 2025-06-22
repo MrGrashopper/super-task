@@ -43,18 +43,17 @@ export const TaskBoard = ({ projectId }: { projectId: string }) => {
     }
 
     setLocalTasks((prev) => {
-      if (
+      const equal =
         prev.length === tasks.length &&
         prev.every(
           (t, i) =>
             t.id === tasks[i].id &&
             t.status === tasks[i].status &&
-            t.order === tasks[i].order
-        )
-      ) {
-        return prev;
-      }
-      return tasks;
+            t.order === tasks[i].order &&
+            t.subtasks.length === tasks[i].subtasks.length
+        );
+
+      return equal ? prev : tasks;
     });
   }, [
     tasks,
